@@ -1,0 +1,125 @@
+'use client'
+import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import '../../../admin_layout/modal/fa.css'
+
+const UsersRoleList = () => {
+
+    const { data: usersRole = [], isLoading, refetch
+    } = useQuery({
+        queryKey: ['usersRole'],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/role`)
+
+            const data = await res.json()
+            return data
+        }
+    })
+    console.log(usersRole)
+
+    const [btnIconUsers, setBtnIconUsers] = useState([])
+    useEffect(() => {
+        fetch('http://192.168.0.110:5002/user-role/btn')
+            .then(Response => Response.json())
+            .then(data => setBtnIconUsers(data))
+
+
+    }, [])
+
+    const filteredBtnIconEdit = btnIconUsers.filter(btn =>
+        btn.method_sort === 3
+    );
+    console.log(filteredBtnIconEdit)
+    const filteredBtnIconDelete = btnIconUsers.filter(btn =>
+        btn.method_sort === 5
+    );
+    const filteredBtnIconCreate = btnIconUsers.filter(btn =>
+        btn.method_sort === 1
+    );
+
+    return (
+        <div className="col-md-12 bg-light body-content  p-4">
+
+            <div
+
+                className=" border-primary shadow-sm border-0">
+                <div
+                    style={{ backgroundColor: '#4267b2' }}
+                    className="card-header custom-card-header  py-1 clearfix  text-white ">
+                    <h5 className="card-title card-header-color font-weight-bold mb-0  float-left mt-1">User Role List</h5>
+                    <div className="card-title card-header-color font-weight-bold mb-0  float-right"> 
+                    <Link href="/Admin/user_role/user_role_create" className="btn btn-sm btn-info">Create User role</Link></div>
+                </div>
+                <div className="card-body">
+                    <div className="table-responsive">
+                        <table className="table table-bordered table-hover table-striped table-sm ">
+                            <tbody><tr>
+                                <th>Role Name</th>
+                                <th>Action</th>
+                            </tr>
+                                {
+                                    usersRole?.map(userRle =>
+
+
+                                        <tr key={userRle.id}>
+                                            <td>s{userRle.role_name}</td>
+                                            <td>
+                                                <Link href={``}>
+                                                    {
+                                                        filteredBtnIconEdit.map((filteredBtnIconEdit =>
+
+                                                            <button
+                                                                key={filteredBtnIconEdit.id}
+                                                                title='Edit'
+                                                                style={{ width: "35px ", height: '30px', marginLeft: '5px', marginTop: '5px' }}
+                                                                className={filteredBtnIconEdit?.btn}
+                                                            >
+
+                                                                <a
+                                                                    dangerouslySetInnerHTML={{ __html: filteredBtnIconEdit?.icon }}
+                                                                ></a>
+                                                            </button>
+
+                                                        ))
+                                                    }
+
+                                                </Link>
+
+                                                {
+                                                    filteredBtnIconDelete.map((filteredBtnIconDelete =>
+                                                        <button
+                                                            key={filteredBtnIconDelete.id}
+                                                            title='Delete'
+                                                            onClick={() => handleDelete(allUser.id)}
+                                                            style={{ width: "35px ", height: '30px', marginLeft: '5px', marginTop: '5px' }}
+                                                            className={filteredBtnIconDelete?.btn}
+                                                        >
+                                                            <a
+                                                                dangerouslySetInnerHTML={{ __html: filteredBtnIconDelete?.icon }}
+                                                            ></a>
+                                                        </button>
+
+                                                    ))
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+
+
+                            </tbody></table>
+                    </div>
+                    <div className="w-100 justify-content-around font-weight-bold">
+                        <p className="float-left mb-0 my-2">Showing 1 to 9 of 9 results.</p>
+                    </div>
+                </div >
+            </div >
+        </div >
+    );
+};
+
+export default UsersRoleList;

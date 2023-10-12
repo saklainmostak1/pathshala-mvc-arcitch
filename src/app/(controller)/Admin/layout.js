@@ -9,13 +9,13 @@ import AdminSubHeader from '@/app/(view)/admin_layout/sub_header/page';
 
 const AdminTemplate = ({ children }) => {
 
-    $(document).ready(function () {
-        $("#customSidebarToggle").on('click', function () {
-            $('.custom-sidebar, .custom-content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-        });
-    });
+    // $(document).ready(function () {
+    //     $("#customSidebarToggle").on('click', function () {
+    //         $('.custom-sidebar, .custom-content').toggleClass('active');
+    //         $('.collapse.in').toggleClass('in');
+    //         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    //     });
+    // });
     const [isSidebarActive, setSidebarActive] = useState(false);
 
     const toggleSidebar = () => {

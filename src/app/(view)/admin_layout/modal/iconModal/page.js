@@ -19,14 +19,14 @@ const IconModal = ({ index, names, handleInputChange, inputValue }) => {
 
     const [cart, setCart] = useState([])
     const handleAddToCart = data => {
-       
+
         const newCart = [...cart, data]
         setCart(newCart)
 
     }
 
     const iconValue = (cart?.map(c => c?.fa))
-
+    console.log(iconValue)
     const handleDeleteClick = () => {
         setCart([])
     };
@@ -37,11 +37,17 @@ const IconModal = ({ index, names, handleInputChange, inputValue }) => {
 
 
     return (
-        <div >
-            <>
-                <div className="input-group">
-                    <div >
-                        <input
+        <div className='row px-1'>
+                <div class="input-group ">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-sm btn-success icon_view" type="button"
+                        >
+                            <a
+                                dangerouslySetInnerHTML={{ __html: iconValue[iconValue.length - 1] }}
+                            ></a>
+                        </button>
+                    </div>
+                    <input
                             type="text"
                             className="form-control form-control-sm page_group_icon"
                             name={names}
@@ -51,15 +57,13 @@ const IconModal = ({ index, names, handleInputChange, inputValue }) => {
                             defaultValue={iconValue[iconValue.length - 1]}
                             onChange={(event) => handleInputChange(index, event)}
                         />
-                    </div>
-
-                    <div className="input-group-append">
-                        <button
+                    <div class="input-group-append">
+                    <button
                             className="btn btn-sm btn-danger icon_clear"
                             data-input={`icon[${index}]`}
                             type="button"
                             onClick={handleDeleteClick}
-                            onChange={() => handleInputChange(index, { target: { name: {names}, value: '' } })}
+                            onChange={() => handleInputChange(index, { target: { name: { names }, value: '' } })}
                         >
                             <HiTrash />
                         </button>
@@ -73,8 +77,8 @@ const IconModal = ({ index, names, handleInputChange, inputValue }) => {
                             <i className="fas fa-search"></i> Icon
                         </button>
                     </div>
+
                 </div>
-                
                 <Modal
                     className='text-black'
                     size="lg"
@@ -109,7 +113,7 @@ const IconModal = ({ index, names, handleInputChange, inputValue }) => {
                         </div>
                     </Modal.Body>
                 </Modal>
-            </>
+           
         </div>
     );
 };

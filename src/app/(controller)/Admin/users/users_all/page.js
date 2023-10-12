@@ -1,4 +1,4 @@
-import UsersList from '@/app/(view)/admin/users_list/page';
+import UsersList from '@/app/(view)/admin/users_all/page';
 import React from 'react';
 
 const UsersListCall = () => {

@@ -5,30 +5,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 
-const AdminHeader =({ toggleSidebar }) => {
+const AdminHeader = ({ toggleSidebar }) => {
 
-    useEffect(() => {
-        const jQueryScript = document.createElement('script');
-        jQueryScript.src = 'https://code.jquery.com/jquery-3.3.1.slim.min.js';
-        jQueryScript.integrity = 'sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo';
-        jQueryScript.crossOrigin = 'anonymous';
-        jQueryScript.async = true;
-        document.body.appendChild(jQueryScript);
+    // useEffect(() => {
+    //     const jQueryScript = document.createElement('script');
+    //     jQueryScript.src = 'https://code.jquery.com/jquery-3.3.1.slim.min.js';
+    //     jQueryScript.integrity = 'sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo';
+    //     jQueryScript.crossOrigin = 'anonymous';
+    //     jQueryScript.async = true;
+    //     document.body.appendChild(jQueryScript);
 
-        const bootstrapScript = document.createElement('script');
-       
-        bootstrapScript.src = 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js';
-        bootstrapScript.integrity = 'sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm';
-        bootstrapScript.crossOrigin = 'anonymous';
-        bootstrapScript.async = true;
-        document.body.appendChild(bootstrapScript);
+    //     const bootstrapScript = document.createElement('script');
 
-        return () => {
+    //     bootstrapScript.src = 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js';
+    //     bootstrapScript.integrity = 'sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm';
+    //     bootstrapScript.crossOrigin = 'anonymous';
+    //     bootstrapScript.async = true;
+    //     document.body.appendChild(bootstrapScript);
 
-            document.body.removeChild(jQueryScript);
-            document.body.removeChild(bootstrapScript);
-        };
-    }, []);
+    //     return () => {
+
+    //         document.body.removeChild(jQueryScript);
+    //         document.body.removeChild(bootstrapScript);
+    //     };
+    // }, []);
 
 
     // const [isHeaderActive, setIsHeaderActive] = useState(false);
@@ -42,11 +42,11 @@ const AdminHeader =({ toggleSidebar }) => {
     // toggleHeader={toggleHeader}
 
 
-// console.log(toggleHeader)
+    // console.log(toggleHeader)
     return (
-        <nav  className="navbar navbar-expand-lg">
+        <nav className="navbar navbar-expand-lg">
             <div className="container-fluid ">
-                <button type="button" onClick={toggleSidebar} id="sidebarCollapse" className="btn btn-info d-lg-none">
+                <button type="button" onClick={toggleSidebar} id="sidebarCollapse" className="btn btn-info d-lg-none mr-lg-5">
                     =
                 </button>
                 <div className='d-flex gap-3 mt-3'>
@@ -55,18 +55,21 @@ const AdminHeader =({ toggleSidebar }) => {
                             width='40'
                         />
                     </div>
-                    <div style={{ marginTop: '-8px', }}>
+                    <div style={{ marginTop: '-8px', marginLeft: '10px' }}>
                         <h4 className='header-tag'>Pathshala School & College
                         </h4>
                         <p style={{ marginTop: '-5px' }}><strong>College Management System</strong></p>
                     </div>
                 </div>
+                <div>
 
-                <button
-              
-                className="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    =
-                </button>
+                    <button
+
+                        className="btn btn-dark d-inline-block d-lg-none ml-auto " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        =
+                    </button>
+                </div>
+
 
                 <div className="collapse navbar-collapse d-lg-flex justify-content-end navbar-upper" id="navbarSupportedContent">
 

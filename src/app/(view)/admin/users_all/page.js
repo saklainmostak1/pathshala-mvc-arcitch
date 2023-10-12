@@ -9,6 +9,7 @@ import ReactPaginate from 'react-paginate';
 import { FaTrashAlt } from "react-icons/fa";
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
+import '../../admin_layout/modal/fa.css'
 
 const UsersList = () => {
 
@@ -25,7 +26,33 @@ const UsersList = () => {
         }
     })
 
+    const [btnIconUsers, setBtnIconUsers] = useState([])
+    useEffect(() => {
+        fetch('http://192.168.0.110:5002/users')
+            .then(Response => Response.json())
+            .then(data => setBtnIconUsers(data))
 
+
+    }, [])
+    // const remove = btnIconUsers.filter(btn => 
+    //     btn.method_name !== btn.controller_name + '_create' && 
+    //     btn.method_name !== btn.controller_name + '_all' &&
+    //     btn.method_name !== btn.display_name === 'Users'
+    //   );
+
+    const filteredBtnIconEdit = btnIconUsers.filter(btn =>
+        btn.method_sort === 3
+    );
+
+    const filteredBtnIconDelete = btnIconUsers.filter(btn =>
+        btn.method_sort === 5
+    );
+    const filteredBtnIconCreate = btnIconUsers.filter(btn =>
+        btn.method_sort === 1
+    );
+
+    //    console.log(remove, 'remove')
+    console.log(btnIconUsers)
     // paigination Start
     const itemsPerPage = 20;
 
@@ -77,7 +104,17 @@ const UsersList = () => {
                     <li className="list-group-item text-light  p-1 px-4" aria-current="true" style={{ background: '#4267b2' }}>
                         <div className='d-flex justify-content-between'>
                             <h5 > Users List</h5>
-                            <button style={{ background: '#17a2b8' }} className='border-0 text-white shadow-sm rounded-1'><Link href='/Admin/users/users_create'>Create Users</Link></button>
+                            {
+                                filteredBtnIconCreate.map((filteredBtnIconCreate => 
+                                    
+                                    
+                                    <div key={filteredBtnIconCreate.id} >
+                                        <button  style={{ background: '#17a2b8', border: "none", }} 
+                                    className={`${filteredBtnIconCreate.btn} rounded p-1`} ><Link href='/Admin/users/users_create'>Create Users</Link></button>
+                                    </div>
+                                    
+                                    ))
+                            }
                         </div>
                     </li>
                     <Table responsive="lg">
@@ -88,7 +125,7 @@ const UsersList = () => {
                                 <th>Email</th>
                                 <th>Mobile</th>
                                 <th>Role</th>
-                               
+
                                 <th>Options</th>
                             </tr>
                         </thead>
@@ -120,42 +157,64 @@ const UsersList = () => {
                                                 {allUser?.role_name}
                                             </p>
                                         </td>
-                                      
+
                                         <td className="">
                                             <div className="flex items-center ">
-                                                <button
-                                                    style={{ width: "35px ", height: '30px', marginLeft: '2px' }}
-                                                    className=" rounded border-0 bg-success text-white
-                                        
-                                            "
-                                                >
 
-                                                    <HiEye></HiEye>
-                                                </button>
+
+                                                {/* <button
+                                                            key={btnIconUser.id}
+                                                            title='Edit'
+                                                            style={{ width: "35px ", height: '30px', marginLeft: '5px', marginTop: '5px' }}
+                                                            className={btnIconUser?.btn}
+                                                        >
+                                                            <a
+                                                                dangerouslySetInnerHTML={{ __html: btnIconUser?.icon }}
+                                                            ></a>
+                                                            <Link href={`/Admin/users/edit_users/${allUser.id}`}>
+                                                           
+                                                            
+                                                            </Link>
+                                                        </button> */}
+
+
                                                 <Link href={`/Admin/users/edit_users/${allUser.id}`}>
+                                                    {
+                                                        filteredBtnIconEdit.map((filteredBtnIconEdit =>
 
-                                                    <button
-                                                        title='Edit'
-                                                        style={{ width: "35px ", height: '30px', marginLeft: '2px', }}
-                                                        className=" rounded border-0 bg-primary text-white 
-                                         
-                                            "
-                                                    >
+                                                            <button
+                                                                key={filteredBtnIconEdit.id}
+                                                                title='Edit'
+                                                                style={{ width: "35px ", height: '30px', marginLeft: '5px', marginTop:'5px' }}
+                                                                className={filteredBtnIconEdit?.btn}
+                                                            >
 
-                                                        <HiPencilAlt></HiPencilAlt>
-                                                    </button>
+                                                                <a
+                                                                    dangerouslySetInnerHTML={{ __html: filteredBtnIconEdit?.icon }}
+                                                                ></a>
+                                                            </button>
+
+                                                        ))
+                                                    }
+
                                                 </Link>
 
-                                                <button
-                                                    title='Delete'
-                                                    onClick={() => handleDelete(allUser.id)}
-                                                    style={{ width: "35px ", height: '30px', marginLeft: '2px' }}
-                                                    className=" rounded border-0 bg-danger text-white
-                                           
-                                            "
-                                                >
-                                                    <FaTrashAlt></FaTrashAlt>
-                                                </button>
+                                                {
+                                                    filteredBtnIconDelete.map((filteredBtnIconDelete =>
+                                                        <button
+                                                            key={filteredBtnIconDelete.id}
+                                                            title='Delete'
+                                                            onClick={() => handleDelete(allUser.id)}
+                                                            style={{ width: "35px ", height: '30px', marginLeft: '5px', marginTop:'5px' }}
+                                                            className={filteredBtnIconDelete?.btn}
+                                                        >
+                                                            <a
+                                                                    dangerouslySetInnerHTML={{ __html: filteredBtnIconDelete?.icon }}
+                                                                ></a>
+                                                        </button>
+
+                                                    ))
+                                                }
                                             </div>
                                         </td>
                                     </tr>

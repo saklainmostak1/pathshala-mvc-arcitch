@@ -8,36 +8,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import './pageStyle.css';
 import { faKey, faSignOutAlt, faUserEdit } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import AdminPageList from '../../admin/admin_page_list_create/page';
+
 import { useQuery } from '@tanstack/react-query';
 import { FaAngleDown, FaAngleRight } from 'react-icons/fa';
-import $ from "jquery";
+
 
 const AdminSidebar = ({ isSidebarActive }) => {
-  useEffect(() => {
-    // Initialize Bootstrap components when the component is mounted
-    $('[data-toggle="collapse"]').on('click', function () {
-      const targetId = $(this).attr('href');
-      $(targetId).toggleClass('show');
-    });
-
-    return () => {
-      // Clean up event listeners when the component is unmounted
-      $('[data-toggle="collapse"]').off('click');
-    };
-  }, []);
 
 
   const { data: userss = [], isLoading, refetch } = useQuery({
     queryKey: ['userss'],
     queryFn: async () => {
-      const res = await fetch('http://localhost:5002/admin/group-names-id');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/group-names-id`);
       const data = await res.json();
       return data;
     },
   });
 
-  const [clickedButtons, setClickedButtons] = useState([]);
+
+
+
+  const [clickedButtons, setClickedButtons] = useState(new Array(userss.length).fill(false));
+
+
 
   const handleClick = (index) => {
     const updatedClickedButtons = [...clickedButtons];
@@ -48,15 +41,26 @@ const AdminSidebar = ({ isSidebarActive }) => {
 
 
 
+  // const formatString = (str) => {
+  //   str = str.charAt(0).toUpperCase() + str.slice(1);
+  //   str = str.replace(/_/g, ' ');
+  //   return str;
+  // };
+
   const formatString = (str) => {
-    str = str.charAt(0).toUpperCase() + str.slice(1);
-    str = str.replace(/_/g, ' ');
-    return str;
+    const words = str.split('_');
+
+    const formattedWords = words.map((word) => {
+      const capitalizedWord = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      return capitalizedWord;
+    });
+
+    return formattedWords.join(' ');
   };
 
-
-
-
+  const convertToCamelCase = (input) => {
+    return input.toLowerCase().replace(/ /g, '_');
+  };
 
 
   return (
@@ -98,7 +102,6 @@ const AdminSidebar = ({ isSidebarActive }) => {
 
 
 
-
       <ul className="text-white">
         <button className='dashboard p-2 '>
           <Link className='' href='/Admin/dashboard'>Dashboard</Link>
@@ -123,11 +126,12 @@ const AdminSidebar = ({ isSidebarActive }) => {
               </a>
               <ul className="collapse list-unstyled" style={{ background: '#3b5998' }} id={group?.page_group}>
 
-                <li>
+              <li>
+                
                   {group?.controllers?.map((d, index) => (
                     <div key={d.controller_name}>
-                      <a href={`#${group.page_group}-${d.controller_name}`} data-toggle="collapse" aria-expanded="false" className=" border-bottom" >
-                        {/* borderBottom */}
+                      <a href={`#${group.page_group}-${d.controller_name}`} data-toggle="collapse" aria-expanded="false" className=" borderBottom" >
+                        {/* border-bottom  */}
                         <div className='d-flex justify-content-between'>
                           {formatString(d.controller_name)}
                           <div>
@@ -136,18 +140,26 @@ const AdminSidebar = ({ isSidebarActive }) => {
                         </div>
                       </a>
                       <ul className="collapse list-unstyled " style={{ background: '#314B81' }} id={`${group.page_group}-${d.controller_name}`}>
-                        <li>
+
+                    <li>
                           {d.display_names.map((displayName, displayNameIndex) => (
-                            // border-bottom1
+                            // border-bottom
+                           
                             <Link
-                              className='border-bottom'
-                              key={displayNameIndex}
-                              href={`/Admin/admin_page_list/admin_page_list_create?page_group=${group?.page_group}`}
-                            >
-                              {formatString(displayName)}{' '}
-                            </Link>
+                            className='border-bottom1'
+                            key={displayName}
+                            href={`/Admin/${d?.controller_name}/${displayName.method_names}?page_group=${group?.page_group}`} 
+                          >
+                         
+                         {displayName.display_name}
+
+                         </Link> 
+
                           ))}
-                        </li>
+                         </li> 
+
+                       
+
                       </ul>
                     </div>
                   ))}
@@ -158,7 +170,10 @@ const AdminSidebar = ({ isSidebarActive }) => {
         ))}
       </ul>
 
-     
+
+
+
+
     </nav>
   );
 }
@@ -181,7 +196,65 @@ export default AdminSidebar;
 
 
 
-
+      {/* <ul className="text-white">
+      <button className='dashboard p-2 '>
+        <Link className='' href='/Admin/dashboard'>Dashboard</Link>
+      </button>
+      {userss?.map((group, index) => (
+        <li key={group?.page_group_id}>
+          <button
+            className={`dashboard-dropdown ${clickedButtons[index] ? 'clicked' : ''}`}
+            onClick={() => handleClick(index)}
+          >
+            <a
+              href={`#${group?.page_group}`}
+              data-toggle="collapse"
+              aria-expanded="false"
+            >
+              <div className="d-flex justify-content-between">
+                {formatString(group?.page_group)}
+                <div>
+                  {clickedButtons[index] ? <FaAngleDown /> : <FaAngleRight />}
+                </div>
+              </div>
+            </a>
+            <ul className="collapse list-unstyled" style={{ background: '#3b5998' }} id={group?.page_group}>
+              <li>
+                {group?.controllers?.map((d, controllerIndex) => (
+                  <div key={d.controller_name}>
+                    <a
+                      href={`#${group.page_group}-${d.controller_name}`}
+                      data-toggle="collapse"
+                      aria-expanded="false"
+                    >
+                      <div className='d-flex justify-content-between'>
+                        {formatString(d.controller_name)}
+                        <div>
+                          {clickedButtons[index] ? <FaAngleDown /> : <FaAngleRight />}
+                        </div>
+                      </div>
+                    </a>
+                    <ul className="collapse list-unstyled " style={{ background: '#314B81' }} id={`${group.page_group}-${d.controller_name}`}>
+                      <li>
+                        {d.display_names.map((displayName, displayNameIndex) => (
+                          <Link
+                            className='border-bottom'
+                            key={displayNameIndex}
+                            href={`/Admin/admin_page_list/admin_page_list_create?page_group=${group?.page_group}`}
+                          >
+                            {formatString(displayName)}{' '}
+                          </Link>
+                        ))}
+                      </li>
+                    </ul>
+                  </div>
+                ))}
+              </li>
+            </ul>
+          </button>
+        </li>
+      ))}
+    </ul> */}
 
 
 
