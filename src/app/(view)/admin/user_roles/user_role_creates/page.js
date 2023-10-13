@@ -34,25 +34,82 @@ const UsersRoleCreates = () => {
     };
 
 
+    // const [selectedMethods, setSelectedMethods] = useState([]);
+
+    // const handleCheckboxClick = (methodId) => {
+    //     console.log(methodId)
+    //     if (selectedMethods.includes(methodId)) {
+    //         // If the method_id is already in the selectedMethods array, remove it
+    //         setSelectedMethods((prevSelectedMethods) =>
+    //             prevSelectedMethods.filter((id) => id !== methodId)
+    //         );
+    //     } else {
+    //         // If the method_id is not in the selectedMethods array, add it
+    //         setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, methodId]);
+    //     }
+    // };
+    // const handleFormSubmit = () => {
+    //     const selectedMethodIds = selectedMethods.join(', ');
+    //     console.log('Selected Method IDs:', selectedMethodIds);
+    // };
+    // const [selectedMethods, setSelectedMethods] = useState({});
+
+    // const handleCheckboxClick = (methodId, methodName, checked) => {
+    //     setSelectedMethods((prevSelectedMethods) => {
+    //         return {
+    //             ...prevSelectedMethods,
+    //             [methodName]: checked
+    //                 ? [...(prevSelectedMethods[methodName] || []), methodId]
+    //                 : prevSelectedMethods[methodName].filter((id) => id !== methodId),
+    //         };
+    //     });
+    // };
+
+    // const handleFormSubmit = () => {
+    //     // Get the selected method names and their associated IDs
+    //     const selectedMethodsArray = [];
+    //     for (const methodName in selectedMethods) {
+    //         if (selectedMethods[methodName].length > 0) {
+    //             selectedMethodsArray.push({
+    //                 method_name: methodName,
+    //                 method_ids: selectedMethods[methodName],
+    //             });
+    //         }
+    //     }
+
+    //     console.log('Selected Method Names and IDs:', selectedMethodsArray);
+    // };
+    // const [selectedMethods, setSelectedMethods] = useState([]);
+
+    // const handleCheckboxClick = (methodNames, checked) => {
+    //     if (checked) {
+    //         setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodNames]);
+    //     } else {
+    //         setSelectedMethods((prevSelectedMethods) =>
+    //             prevSelectedMethods.filter((methodName) => !methodNames.includes(methodName))
+    //         );
+    //     }
+    // };
+    
+    // const handleFormSubmit = () => {
+    //     console.log('Selected Method Names:', selectedMethods);
+    // };
     const [selectedMethods, setSelectedMethods] = useState([]);
 
-    const handleCheckboxClick = (methodId) => {
-        console.log(methodId)
-        if (selectedMethods.includes(methodId)) {
-            // If the method_id is already in the selectedMethods array, remove it
-            setSelectedMethods((prevSelectedMethods) =>
-                prevSelectedMethods.filter((id) => id !== methodId)
-            );
-        } else {
-            // If the method_id is not in the selectedMethods array, add it
-            setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, methodId]);
-        }
+const handleCheckboxClick = (methodId, checked) => {
+    console.log(methodId)
+    if (checked) {
+        setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, methodId]);
+    } else {
+        setSelectedMethods((prevSelectedMethods) =>
+            prevSelectedMethods.filter((id) => id !== methodId)
+        );
     };
-    const handleFormSubmit = () => {
-        const selectedMethodIds = selectedMethods.join(', ');
-        console.log('Selected Method IDs:', selectedMethodIds);
-    };
+};
 
+const handleFormSubmit = () => {
+    console.log('Selected Method IDs:', selectedMethods);
+};
     return (
         <div class="col-md-12 bg-light body-content  p-4">
             <div class=" border-primary shadow-sm border-0">
@@ -170,13 +227,37 @@ const UsersRoleCreates = () => {
 
 
                                                                     <div key={display.id} className="form-check form-check-inline w-15 py-2">
-                                                                        <input
+                                                                        {/* <input
                                                                             className="form-check-input"
                                                                             type="checkbox"
-                                                                            // checked={selectedMethods.includes(display.method_names.map(method => method.method_name))}
+
                                                                             value={display.method_names.map(method => method.method_id)}
                                                                             onClick={() => handleCheckboxClick(display.method_names.map(method => method.method_id))}
-                                                                        />
+                                                                        /> */}
+                                                                        {/* <input
+                                className="form-check-input"
+                                type="checkbox"
+                                checked={selectedMethods[display.display_name] ? true : false}
+                                onChange={(e) => handleCheckboxClick(display.method_names[0].method_id, display.display_name, e.target.checked)}
+                            /> */}
+                                                                         {/* <input
+        className="form-check-input"
+        type="checkbox"
+        checked={display.method_names.every((method) => selectedMethods.includes(method.method_name))}
+        onChange={(e) => {
+            const isChecked = e.target.checked;
+            handleCheckboxClick(
+                display.method_names.map((method) => method.method_name),
+                isChecked
+            );
+        }}
+    /> */}
+     <input
+        className="form-check-input"
+        type="checkbox"
+        checked={selectedMethods.includes(display.method_names[0].method_id)}
+        onChange={(e) => handleCheckboxClick(display.method_names[0].method_id, e.target.checked)}
+    />
                                                                         <label className="form-check-label">
                                                                             <small className="font-weight-bold">{display.display_name}</small>
                                                                         </label>
