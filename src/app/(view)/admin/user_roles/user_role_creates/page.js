@@ -3,8 +3,7 @@ import React from 'react';
 import '../../../admin_layout/modal/fa.css'
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useEffect } from 'react';
-import { event } from 'jquery';
+
 const UsersRoleCreates = () => {
 
 
