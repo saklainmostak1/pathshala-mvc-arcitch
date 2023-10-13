@@ -4,6 +4,7 @@ import '../../../admin_layout/modal/fa.css'
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { event } from 'jquery';
 const UsersRoleCreates = () => {
 
 
@@ -33,55 +34,25 @@ const UsersRoleCreates = () => {
         return input.toLowerCase().replace(/ /g, '_');
     };
 
-    const [checkboxStates, setCheckboxStates] = useState({});
 
-    // Function to handle "Select All" checkbox change
-    const handleSelectAllChange = (event) => {
-        const isChecked = event.target.checked;
+    const [selectedMethods, setSelectedMethods] = useState([]);
 
-        // Create a new object with updated states for all checkboxes
-        const updatedCheckboxStates = {};
-        usersRoleCreate.forEach((roleCreate) => {
-            roleCreate.controllers.forEach((controllers) => {
-                controllers.display_names.forEach((display) => {
-                    updatedCheckboxStates[display.id] = isChecked;
-                });
-            });
-        });
-
-        // Update the state with the new checkbox states
-        setCheckboxStates(updatedCheckboxStates);
+    const handleCheckboxClick = (methodId) => {
+        console.log(methodId)
+        if (selectedMethods.includes(methodId)) {
+            // If the method_id is already in the selectedMethods array, remove it
+            setSelectedMethods((prevSelectedMethods) =>
+                prevSelectedMethods.filter((id) => id !== methodId)
+            );
+        } else {
+            // If the method_id is not in the selectedMethods array, add it
+            setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, methodId]);
+        }
     };
-
-    // Function to handle individual checkbox change
-    const handleCheckboxChange = (event, checkboxId) => {
-        const isChecked = event.target.checked;
-
-        // Update the state for the individual checkbox
-        setCheckboxStates((prevStates) => ({
-            ...prevStates,
-            [checkboxId]: isChecked,
-        }));
+    const handleFormSubmit = () => {
+        const selectedMethodIds = selectedMethods.join(', ');
+        console.log('Selected Method IDs:', selectedMethodIds);
     };
-
-
-    // Function to initialize the checkbox states with all `false` values
-    const initializeCheckboxStates = () => {
-        const initialStates = {};
-        usersRoleCreate.forEach((roleCreate) => {
-            roleCreate.controllers.forEach((controllers) => {
-                controllers.display_names.forEach((display) => {
-                    initialStates[display.id] = false;
-                });
-            });
-        });
-        setCheckboxStates(initialStates);
-    };
-
-    useEffect(() => {
-        // Initialize the checkbox states when the component mounts
-        initializeCheckboxStates();
-    }, [usersRoleCreate]);
 
     return (
         <div class="col-md-12 bg-light body-content  p-4">
@@ -95,7 +66,9 @@ const UsersRoleCreates = () => {
                 <div class="alert alert-warning mb-0 mx-4 mt-4 text-danger font-weight-bold" role="alert">
                     (<small><sup><i class="text-danger fas fa-star"></i></sup></small>) field required
                 </div>			<div class="card-body">
-                    <form class="" method="post" autocomplete="off">
+                    <form class=""
+                        onSubmit={handleFormSubmit}
+                        autocomplete="off">
                         <div class="form-group row">
                             <label class="col-form-label font-weight-bold col-md-2 font-weight-bold">Role Name:<small><sup><small><i class="text-danger fas fa-star"></i></small></sup></small></label>
                             <div class="col-md-6">
@@ -106,23 +79,18 @@ const UsersRoleCreates = () => {
                             <label class="col-form-label font-weight-bold col-md-2 font-weight-bold ">Page List:<small><sup><small><i class="text-danger fas fa-star"></i></small></sup></small></label><br />
                             <div class="col-md-10">
                                 <div class="w-100 mb-2">
-                                    {/* <div class="form-check form-check-inline w-15">
+                                    <div class="form-check form-check-inline w-15">
                                         <input class="form-check-input check_all head" type="checkbox" />
                                         <label class="form-check-label font-weight-bold" for="inlineCheckbox1">Select All</label>
-                                    </div> */}
+                                    </div>
                                     <div class="form-check form-check-inline w-15">
-                                        <input
 
-                                            class="form-check-input create_method_all head"
-                                            type="checkbox"
-                                            checked={Object.values(checkboxStates).every((value) => value)}
-                                            onChange={handleSelectAllChange}
-                                        />
 
                                         <label class="form-check-label font-weight-bold" for="selectAllCheckbox">
                                             Select All
                                         </label>
                                     </div>
+
 
                                     <div class="form-check form-check-inline w-15">
                                         <input class="form-check-input create_method_all head" type="checkbox" />
@@ -182,20 +150,38 @@ const UsersRoleCreates = () => {
                                                                     //     <hr />
 
                                                                     // </tr>
+
+
+
+                                                                    // <div key={display.id} className="form-check form-check-inline w-15 py-2">
+                                                                    //     <input
+                                                                    //         class="form-check-input "
+                                                                    //         name="page_name"
+                                                                    //         type="checkbox"
+                                                                    //         onClick={handleClick}
+                                                                    //          value={display.method_names.map(method => method.method_id)}
+
+                                                                    //     />
+
+                                                                    //     <label class="form-check-label">
+                                                                    //         <small class="font-weight-bold">{display.display_name}</small>
+                                                                    //     </label>
+                                                                    // </div>
+
+
+
                                                                     <div key={display.id} className="form-check form-check-inline w-15 py-2">
                                                                         <input
-                                                                            class="form-check-input check_one_delete head controller-code-135 method_delete class_method"
-                                                                            name="page_name[]"
+                                                                            className="form-check-input"
                                                                             type="checkbox"
+                                                                            // checked={selectedMethods.includes(display.method_names.map(method => method.method_name))}
                                                                             value={display.method_names.map(method => method.method_id)}
-                                                                            checked={checkboxStates[display.id] || false}
-                                                                            onChange={(event) => handleCheckboxChange(event, display.id)}
+                                                                            onClick={() => handleCheckboxClick(display.method_names.map(method => method.method_id))}
                                                                         />
-                                                                        <label class="form-check-label">
-                                                                            <small class="font-weight-bold">{display.display_name}</small>
+                                                                        <label className="form-check-label">
+                                                                            <small className="font-weight-bold">{display.display_name}</small>
                                                                         </label>
                                                                     </div>
-
 
                                                                 ))
                                                             }
@@ -219,7 +205,10 @@ const UsersRoleCreates = () => {
                         <div class="form-group row">
                             <div class="col-sm-6">
                                 <input type="hidden" name="status" value="740" />
-                                <input type="button" disabled="" name="create" class="btn btn-sm btn-success submit" value="Submit" />
+                                <input
+                                    onClick={handleFormSubmit}
+
+                                    type="button" disabled="" name="create" class="btn btn-sm btn-success submit" value="Submit" />
                             </div>
                         </div>
                     </form>

@@ -11,7 +11,7 @@ console.log(id)
     const { data: adminPageListSingle = [], isLoading, refetch } = useQuery({
         queryKey: ['adminPageListSingle'],
         queryFn: async () => {
-          const res = await fetch(`http://192.168.0.110:5002/admin/controllerName/${id}`);
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/controllerName/${id}`);
           const data = await res.json();
           return data;
         }
