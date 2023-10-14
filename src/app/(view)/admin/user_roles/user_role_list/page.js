@@ -65,7 +65,7 @@ const UsersRoleList = () => {
 
 
                                         <tr key={userRle.id}>
-                                            <td>s{userRle.role_name}</td>
+                                            <td>{userRle.role_name}</td>
                                             <td>
                                                 <Link href={``}>
                                                     {
