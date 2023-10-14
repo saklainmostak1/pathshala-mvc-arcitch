@@ -159,6 +159,7 @@ const UsersRoleCreates = () => {
     
         if (checked) {
             updatedSelectedMethods.add(methodId);
+    
             if (parentMethodId === 0) {
                 // Uncheck all checkboxes with method_id equal to their parent_id
                 const childMethodIds = usersRoleCreate
@@ -172,6 +173,7 @@ const UsersRoleCreates = () => {
             }
         } else {
             updatedSelectedMethods.delete(methodId);
+    
             if (parentMethodId === 0) {
                 // Uncheck all checkboxes with method_id equal to their parent_id
                 const childMethodIds = usersRoleCreate
@@ -182,11 +184,22 @@ const UsersRoleCreates = () => {
                     .map((method) => method.method_id);
     
                 childMethodIds.forEach((childMethodId) => updatedSelectedMethods.delete(childMethodId));
+            } else {
+                // If the checkbox being unchecked is for an item with menu_type = 1 and parent_id != 0,
+                // remove the background
+                const display = usersRoleCreate
+                    .flatMap((roleCreate) => roleCreate.controllers)
+                    .flatMap((controllers) => controllers.display_names)
+                    .flatMap((display) => display.method_names)
+                    .find((method) => method.method_id === methodId);
+    
+                if (display && display.menu_type === 1 && display.parent_id !== 0) {
+                    setDoubleClickedDisplayName(null); // Remove background
+                }
             }
         }
     
-        const uniqueSelectedMethods = Array.from(updatedSelectedMethods); // Convert Set back to an array
-        console.log(uniqueSelectedMethods);
+        const uniqueSelectedMethods = Array.from(updatedSelectedMethods);
         setSelectedMethods(uniqueSelectedMethods);
     };
     const handleFormSubmit = () => {
