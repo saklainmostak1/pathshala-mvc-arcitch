@@ -106,17 +106,59 @@ const UsersRoleCreates = () => {
     //     };
     // };
 
-    const handleCheckboxClick = (methodId, checked) => {
+    // const handleCheckboxClick = (methodId, checked) => {
 
-        const updatedSelectedMethods = [...selectedMethods];
+    //     const updatedSelectedMethods = [...selectedMethods];
+    //     const parentMethodId = usersRoleCreate
+    //         .flatMap((roleCreate) => roleCreate.controllers)
+    //         .flatMap((controllers) => controllers.display_names)
+    //         .flatMap((display) => display.method_names)
+    //         .find((method) => method.method_id === methodId)?.parent_id || 0;
+
+    //     if (checked) {
+    //         updatedSelectedMethods.push(methodId);
+    //         if (parentMethodId === 0) {
+    //             // Uncheck all checkboxes with method_id equal to their parent_id
+    //             const childMethodIds = usersRoleCreate
+    //                 .flatMap((roleCreate) => roleCreate.controllers)
+    //                 .flatMap((controllers) => controllers.display_names)
+    //                 .flatMap((display) => display.method_names)
+    //                 .filter((method) => method.parent_id === methodId)
+    //                 .map((method) => method.method_id);
+
+    //             updatedSelectedMethods.push(...childMethodIds);
+    //         }
+    //     } else {
+    //         updatedSelectedMethods.splice(updatedSelectedMethods.indexOf(methodId), 1);
+    //         if (parentMethodId === 0) {
+    //             // Uncheck all checkboxes with method_id equal to their parent_id
+    //             const childMethodIds = usersRoleCreate
+    //                 .flatMap((roleCreate) => roleCreate.controllers)
+    //                 .flatMap((controllers) => controllers.display_names)
+    //                 .flatMap((display) => display.method_names)
+    //                 .filter((method) => method.parent_id === methodId)
+    //                 .map((method) => method.method_id);
+
+    //             childMethodIds.forEach((childMethodId) => {
+    //                 updatedSelectedMethods.splice(updatedSelectedMethods.indexOf(childMethodId), 1);
+    //             });
+    //         }
+    //     }
+    //     console.log(updatedSelectedMethods)
+    //     setSelectedMethods(updatedSelectedMethods);
+    // };
+
+    const handleCheckboxClick = (methodId, checked) => {
+        const updatedSelectedMethods = new Set(selectedMethods);
+    
         const parentMethodId = usersRoleCreate
             .flatMap((roleCreate) => roleCreate.controllers)
             .flatMap((controllers) => controllers.display_names)
             .flatMap((display) => display.method_names)
             .find((method) => method.method_id === methodId)?.parent_id || 0;
-
+    
         if (checked) {
-            updatedSelectedMethods.push(methodId);
+            updatedSelectedMethods.add(methodId);
             if (parentMethodId === 0) {
                 // Uncheck all checkboxes with method_id equal to their parent_id
                 const childMethodIds = usersRoleCreate
@@ -125,11 +167,11 @@ const UsersRoleCreates = () => {
                     .flatMap((display) => display.method_names)
                     .filter((method) => method.parent_id === methodId)
                     .map((method) => method.method_id);
-
-                updatedSelectedMethods.push(...childMethodIds);
+    
+                childMethodIds.forEach((childMethodId) => updatedSelectedMethods.add(childMethodId));
             }
         } else {
-            updatedSelectedMethods.splice(updatedSelectedMethods.indexOf(methodId), 1);
+            updatedSelectedMethods.delete(methodId);
             if (parentMethodId === 0) {
                 // Uncheck all checkboxes with method_id equal to their parent_id
                 const childMethodIds = usersRoleCreate
@@ -138,17 +180,15 @@ const UsersRoleCreates = () => {
                     .flatMap((display) => display.method_names)
                     .filter((method) => method.parent_id === methodId)
                     .map((method) => method.method_id);
-
-                childMethodIds.forEach((childMethodId) => {
-                    updatedSelectedMethods.splice(updatedSelectedMethods.indexOf(childMethodId), 1);
-                });
+    
+                childMethodIds.forEach((childMethodId) => updatedSelectedMethods.delete(childMethodId));
             }
         }
-        console.log(updatedSelectedMethods)
-        setSelectedMethods(updatedSelectedMethods);
+    
+        const uniqueSelectedMethods = Array.from(updatedSelectedMethods); // Convert Set back to an array
+        console.log(uniqueSelectedMethods);
+        setSelectedMethods(uniqueSelectedMethods);
     };
-
-
     const handleFormSubmit = () => {
         console.log('Selected Method IDs:', selectedMethods);
     };
