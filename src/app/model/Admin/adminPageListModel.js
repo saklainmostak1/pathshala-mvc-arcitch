@@ -814,68 +814,119 @@ const AdminPageListModel = {
   //   });
   // },
 
-
   getPageGroupAndDisplayNameWithId: async (req, res) => {
-//     const query = `
-//     SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id
-//     FROM admin_page_list ap
-//     GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
-//     HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
-// `;
-
-//     connection.query(query, (error, results) => {
-//       if (error) {
-//         console.error('Error executing MySQL query:', error);
-//         res.status(500).json({ message: 'Internal server error' });
-//         return;
-//       }
-
-//       // Process the data to group by page_group and create an object
-//       const groupedData = results.reduce((acc, row) => {
-//         const { page_group_id, page_group, controller_name, display_name, method_id } = row; // Change method_name to method_id
-//         if (!acc[page_group]) {
-//           acc[page_group] = {
-//             page_group_id,
-//             page_group,
-//             controllers: [],
-//           };
-//         }
-
-//         const controller = acc[page_group].controllers.find((c) => c.controller_name === controller_name);
-
-//         if (controller) {
-//           const display = controller.display_names.find((display) => display.display_name === display_name);
-//           if (display) {
-//             display.method_ids.push(method_id); // Change method_names to method_ids
-//           } else {
-//             controller.display_names.push({ display_name, method_ids: [method_id] }); // Change method_names to method_ids
-//           }
-//         } else {
-//           acc[page_group].controllers.push({
-//             controller_name,
-//             display_names: [{ display_name, method_ids: [method_id] }], // Change method_names to method_ids
-//           });
-//         }
-
-//         return acc;
-//       }, {});
-
-//       const responseData = Object.values(groupedData);
-
-//       if (responseData.length > 0) {
-//         res.json(responseData);
-//       } else {
-//         res.status(404).json({ message: 'Data not found' });
-//       }
-//     });
-
-
-const query = `
-    SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name
-    FROM admin_page_list ap
-    GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
-    HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
-`;
+    //     const query = `
+    //     SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id
+    //     FROM admin_page_list ap
+    //     GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
+    //     HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
+    // `;
+    
+    //     connection.query(query, (error, results) => {
+    //       if (error) {
+    //         console.error('Error executing MySQL query:', error);
+    //         res.status(500).json({ message: 'Internal server error' });
+    //         return;
+    //       }
+    
+    //       // Process the data to group by page_group and create an object
+    //       const groupedData = results.reduce((acc, row) => {
+    //         const { page_group_id, page_group, controller_name, display_name, method_id } = row; // Change method_name to method_id
+    //         if (!acc[page_group]) {
+    //           acc[page_group] = {
+    //             page_group_id,
+    //             page_group,
+    //             controllers: [],
+    //           };
+    //         }
+    
+    //         const controller = acc[page_group].controllers.find((c) => c.controller_name === controller_name);
+    
+    //         if (controller) {
+    //           const display = controller.display_names.find((display) => display.display_name === display_name);
+    //           if (display) {
+    //             display.method_ids.push(method_id); // Change method_names to method_ids
+    //           } else {
+    //             controller.display_names.push({ display_name, method_ids: [method_id] }); // Change method_names to method_ids
+    //           }
+    //         } else {
+    //           acc[page_group].controllers.push({
+    //             controller_name,
+    //             display_names: [{ display_name, method_ids: [method_id] }], // Change method_names to method_ids
+    //           });
+    //         }
+    
+    //         return acc;
+    //       }, {});
+    
+    //       const responseData = Object.values(groupedData);
+    
+    //       if (responseData.length > 0) {
+    //         res.json(responseData);
+    //       } else {
+    //         res.status(404).json({ message: 'Data not found' });
+    //       }
+    //     });
+    
+    
+    // const query = `
+    //     SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name
+    //     FROM admin_page_list ap
+    //     GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
+    //     HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
+    // `;
+    
+    // connection.query(query, (error, results) => {
+    //     if (error) {
+    //         console.error('Error executing MySQL query:', error);
+    //         res.status(500).json({ message: 'Internal server error' });
+    //         return;
+    //     }
+    
+    //     // Process the data to group by page_group and create an object
+    //     const groupedData = results.reduce((acc, row) => {
+    //         const { page_group_id, page_group, controller_name, display_name, method_id, method_name } = row;
+    //         if (!acc[page_group]) {
+    //             acc[page_group] = {
+    //                 page_group_id,
+    //                 page_group,
+    //                 controllers: [],
+    //             };
+    //         }
+    
+    //         const controller = acc[page_group].controllers.find((c) => c.controller_name === controller_name);
+    
+    //         if (controller) {
+    //             const display = controller.display_names.find((display) => display.display_name === display_name);
+    //             if (display) {
+    //                 display.method_names.push({ method_id, method_name });
+    //             } else {
+    //                 controller.display_names.push({ display_name, method_names: [{ method_id, method_name }] });
+    //             }
+    //         } else {
+    //             acc[page_group].controllers.push({
+    //                 controller_name,
+    //                 display_names: [{ display_name, method_names: [{ method_id, method_name }] }],
+    //             });
+    //         }
+    
+    //         return acc;
+    //     }, {});
+    
+    //     const responseData = Object.values(groupedData);
+    
+    //     if (responseData.length > 0) {
+    //         res.json(responseData);
+    //     } else {
+    //         res.status(404).json({ message: 'Data not found' });
+    //     }
+    // });
+    const query = `
+        SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name, ap.parent_id, ap.menu_type
+        FROM admin_page_list ap
+        GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
+        HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
+    `;
 
 connection.query(query, (error, results) => {
     if (error) {
@@ -886,7 +937,7 @@ connection.query(query, (error, results) => {
 
     // Process the data to group by page_group and create an object
     const groupedData = results.reduce((acc, row) => {
-        const { page_group_id, page_group, controller_name, display_name, method_id, method_name } = row;
+        const { page_group_id, page_group, controller_name, display_name, method_id, method_name, parent_id, menu_type } = row;
         if (!acc[page_group]) {
             acc[page_group] = {
                 page_group_id,
@@ -900,14 +951,21 @@ connection.query(query, (error, results) => {
         if (controller) {
             const display = controller.display_names.find((display) => display.display_name === display_name);
             if (display) {
-                display.method_names.push({ method_id, method_name });
+                const method = display.method_names.find((method) => method.method_id === method_id);
+                if (method) {
+                    // If method already exists, just add parent_id and menu_type
+                    method.parent_id = parent_id;
+                    method.menu_type = menu_type;
+                } else {
+                    display.method_names.push({ method_id, method_name, parent_id, menu_type });
+                }
             } else {
-                controller.display_names.push({ display_name, method_names: [{ method_id, method_name }] });
+                controller.display_names.push({ display_name, method_names: [{ method_id, method_name, parent_id, menu_type }] });
             }
         } else {
             acc[page_group].controllers.push({
                 controller_name,
-                display_names: [{ display_name, method_names: [{ method_id, method_name }] }],
+                display_names: [{ display_name, method_names: [{ method_id, method_name, parent_id, menu_type }] }],
             });
         }
 
@@ -922,8 +980,10 @@ connection.query(query, (error, results) => {
         res.status(404).json({ message: 'Data not found' });
     }
 });
-  },
-
+      },
+    
+    
+    
 
 
   getPageGroupAndControllerNamesssId: async (req, res) => {
