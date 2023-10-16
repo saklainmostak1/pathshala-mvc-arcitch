@@ -319,8 +319,8 @@ const handleCheckboxClick = (methodId, checked) => {
     if (checked) {
         updatedSelectedMethods.add(methodId);
     } else {
-        updatedSelectedMethods.delete(methodId);
-        updatedSelectedMethods.delete(methodId);
+       
+         updatedSelectedMethods.delete(methodId);
 
         const display = usersRoleCreate
             .flatMap((roleCreate) => roleCreate.controllers)
