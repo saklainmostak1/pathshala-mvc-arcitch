@@ -25,6 +25,9 @@ a:focus {
     color: white ;
 }
 
+body a:hover{
+  color: white;
+}
 .navbar {
     padding: 15px 10px;
     background: #fff;

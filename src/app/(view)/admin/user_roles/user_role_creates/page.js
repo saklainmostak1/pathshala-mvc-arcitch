@@ -150,65 +150,346 @@ const UsersRoleCreates = () => {
     // };
 
     const [selectedMethods, setSelectedMethods] = useState([]);
-    const handleCheckboxClick = (methodId, checked) => {
-        const updatedSelectedMethods = new Set(selectedMethods);
 
-        const parentMethodId = usersRoleCreate
+
+
+
+
+
+    //     const handleCheckboxClick = (methodId, checked) => {
+
+    //         const method_sort = usersRoleCreate
+    //         .flatMap((roleCreate) => roleCreate.controllers)
+    //         .flatMap((controllers) => controllers.display_names)
+    //         .flatMap((display) => display.method_names)
+    //         .filter((m) => m.method_id === methodId)
+    //         .map((m) => m.method_sort);
+    // console.log(method_sort)
+
+    //         const updatedSelectedMethods = new Set(selectedMethods);
+
+    //         const parentMethodId = usersRoleCreate
+    //             .flatMap((roleCreate) => roleCreate.controllers)
+    //             .flatMap((controllers) => controllers.display_names)
+    //             .flatMap((display) => display.method_names)
+    //             .find((method) => method.method_id === methodId)?.parent_id || 0;
+
+    //         if (checked) {
+    //             updatedSelectedMethods.add(methodId);
+
+    //             if (parentMethodId === 0) {
+    //                 // Uncheck all checkboxes with method_id equal to their parent_id
+    //                 const childMethodIds = usersRoleCreate
+    //                     .flatMap((roleCreate) => roleCreate.controllers)
+    //                     .flatMap((controllers) => controllers.display_names)
+    //                     .flatMap((display) => display.method_names)
+    //                     .filter((method) => method.parent_id === methodId)
+    //                     .map((method) => method.method_id);
+
+    //                 childMethodIds.forEach((childMethodId) => updatedSelectedMethods.add(childMethodId));
+    //             }
+    //         } else {
+    //             updatedSelectedMethods.delete(methodId);
+
+    //             if (parentMethodId === 0) {
+    //                 // Uncheck all checkboxes with method_id equal to their parent_id
+    //                 const childMethodIds = usersRoleCreate
+    //                     .flatMap((roleCreate) => roleCreate.controllers)
+    //                     .flatMap((controllers) => controllers.display_names)
+    //                     .flatMap((display) => display.method_names)
+    //                     .filter((method) => method.parent_id === methodId)
+    //                     .map((method) => method.method_id);
+
+    //                 childMethodIds.forEach((childMethodId) => updatedSelectedMethods.delete(childMethodId));
+    //             } else {
+    //                 // If the checkbox being unchecked is for an item with menu_type = 1 and parent_id != 0,
+    //                 // remove the background
+    //                 const display = usersRoleCreate
+    //                     .flatMap((roleCreate) => roleCreate.controllers)
+    //                     .flatMap((controllers) => controllers.display_names)
+    //                     .flatMap((display) => display.method_names)
+    //                     .find((method) => method.method_id === methodId);
+
+    //                 if (display && display.menu_type === 1 && display.parent_id !== 0) {
+    //                     setDoubleClickedDisplayName(null); // Remove background
+    //                 }
+    //             }
+    //         }
+
+    //         const uniqueSelectedMethods = Array.from(updatedSelectedMethods);
+    //         setSelectedMethods(uniqueSelectedMethods);
+    //         if (uniqueSelectedMethods.length === 0) {
+    //             document.querySelector('input[name="default_page"]').value = '0';
+    //         }
+    //     };
+
+
+
+    // const handleCheckboxClick = (methodId, checked) => {
+    //     const updatedSelectedMethods = new Set(selectedMethods);
+
+    //     if (checked) {
+    //         updatedSelectedMethods.add(methodId);
+    //     } else {
+    //         updatedSelectedMethods.delete(methodId);
+
+    //         const display = usersRoleCreate
+    //             .flatMap((roleCreate) => roleCreate.controllers)
+    //             .flatMap((controllers) => controllers.display_names)
+    //             .flatMap((display) => display.method_names)
+    //             .find((method) => method.method_id === methodId);
+
+    //         if (display && display.menu_type === 1 && display.parent_id !== 0) {
+    //             setDoubleClickedDisplayName(null); // Remove background
+    //         }
+    //     }
+
+    //     const uniqueSelectedMethods = Array.from(updatedSelectedMethods);
+    //     setSelectedMethods(uniqueSelectedMethods);
+
+    //     if (uniqueSelectedMethods.length === 0) {
+    //         document.querySelector('input[name="default_page"]').value = '0';
+    //     }
+    // };
+
+
+
+
+
+
+//    const handleCheckboxClick = (methodId, checked) => {
+//     const updatedSelectedMethods = new Set(selectedMethods);
+
+//     if (checked) {
+//         updatedSelectedMethods.add(methodId);
+//     } else {
+//         updatedSelectedMethods.delete(methodId);
+//     }
+
+//     // Find the controller containing the method with the specified methodId
+//     const controllerWithMethodId = usersRoleCreate
+//         .flatMap((roleCreate) => roleCreate.controllers)
+//         .find((controllers) =>
+//             controllers.display_names.some((display) =>
+//                 display.method_names.some((m) => m.method_id === methodId)
+//             )
+//         );
+
+//     if (controllerWithMethodId) {
+//         const controllerName = controllerWithMethodId.controller_name;
+
+//         // Access the method_sort from controllerWithMethodId
+//         const method = controllerWithMethodId.display_names
+//             .flatMap((display) => display.method_names)
+//             .find((m) => m.method_id === methodId);
+
+//         if (method) {
+//             const method_sort = method.method_sort;
+
+//             if (method_sort === 0) {
+//                 // Check all display_names in the same controller
+//                 controllerWithMethodId.display_names.forEach((display) => {
+//                     display.method_names.forEach((m) => {
+//                         const displayMethodId = m.method_id;
+//                         updatedSelectedMethods.add(displayMethodId);
+
+//                         // You can also update the checkbox state here
+//                         const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+//                         if (checkbox) {
+//                             checkbox.checked = true;
+//                         }
+//                     });
+//                 });
+//             }
+//         }
+//     }
+
+//     const uniqueSelectedMethods = Array.from(updatedSelectedMethods);
+//     setSelectedMethods(uniqueSelectedMethods);
+
+//     if (uniqueSelectedMethods.length === 0) {
+//         document.querySelector('input[name="default_page"]').value = '0';
+//     }
+// };
+// original
+
+const handleCheckboxClick = (methodId, checked) => {
+    const updatedSelectedMethods = new Set(selectedMethods);
+
+    if (checked) {
+        updatedSelectedMethods.add(methodId);
+    } else {
+        updatedSelectedMethods.delete(methodId);
+        updatedSelectedMethods.delete(methodId);
+
+        const display = usersRoleCreate
             .flatMap((roleCreate) => roleCreate.controllers)
             .flatMap((controllers) => controllers.display_names)
             .flatMap((display) => display.method_names)
-            .find((method) => method.method_id === methodId)?.parent_id || 0;
+            .find((method) => method.method_id === methodId);
 
-        if (checked) {
-            updatedSelectedMethods.add(methodId);
+        if (display && display.menu_type === 1 && display.parent_id !== 0) {
+            setDoubleClickedDisplayName(null); // Remove background color
+        }
+    }
 
-            if (parentMethodId === 0) {
-                // Uncheck all checkboxes with method_id equal to their parent_id
-                const childMethodIds = usersRoleCreate
-                    .flatMap((roleCreate) => roleCreate.controllers)
-                    .flatMap((controllers) => controllers.display_names)
-                    .flatMap((display) => display.method_names)
-                    .filter((method) => method.parent_id === methodId)
-                    .map((method) => method.method_id);
+    // Find the controller containing the method with the specified methodId
+    const controllerWithMethodId = usersRoleCreate
+        .flatMap((roleCreate) => roleCreate.controllers)
+        .find((controllers) =>
+            controllers.display_names.some((display) =>
+                display.method_names.some((m) => m.method_id === methodId)
+            )
+        );
 
-                childMethodIds.forEach((childMethodId) => updatedSelectedMethods.add(childMethodId));
-            }
-        } else {
-            updatedSelectedMethods.delete(methodId);
+    if (controllerWithMethodId) {
+      
 
-            if (parentMethodId === 0) {
-                // Uncheck all checkboxes with method_id equal to their parent_id
-                const childMethodIds = usersRoleCreate
-                    .flatMap((roleCreate) => roleCreate.controllers)
-                    .flatMap((controllers) => controllers.display_names)
-                    .flatMap((display) => display.method_names)
-                    .filter((method) => method.parent_id === methodId)
-                    .map((method) => method.method_id);
+        // Access the method_sort from controllerWithMethodId
+        const method = controllerWithMethodId.display_names
+            .flatMap((display) => display.method_names)
+            .find((m) => m.method_id === methodId);
 
-                childMethodIds.forEach((childMethodId) => updatedSelectedMethods.delete(childMethodId));
-            } else {
-                // If the checkbox being unchecked is for an item with menu_type = 1 and parent_id != 0,
-                // remove the background
-                const display = usersRoleCreate
-                    .flatMap((roleCreate) => roleCreate.controllers)
-                    .flatMap((controllers) => controllers.display_names)
-                    .flatMap((display) => display.method_names)
-                    .find((method) => method.method_id === methodId);
+        if (method) {
+            const method_sort = method.method_sort;
 
-                if (display && display.menu_type === 1 && display.parent_id !== 0) {
-                    setDoubleClickedDisplayName(null); // Remove background
-                }
+            if (method_sort === 0) {
+                // Check or uncheck all display_names in the same controller
+                controllerWithMethodId.display_names.forEach((display) => {
+                    display.method_names.forEach((m) => {
+                        const displayMethodId = m.method_id;
+                        if (checked) {
+                            updatedSelectedMethods.add(displayMethodId);
+                        } else {
+                            updatedSelectedMethods.delete(displayMethodId);
+                        }
+
+                        // You can also update the checkbox state here
+                        const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                        if (checkbox) {
+                            checkbox.checked = checked;
+                        }
+                    });
+                });
             }
         }
+    }
 
-        const uniqueSelectedMethods = Array.from(updatedSelectedMethods);
+    // const uniqueSelectedMethods = Array.from(updatedSelectedMethods);
+    // setSelectedMethods(uniqueSelectedMethods);
+
+    // if (uniqueSelectedMethods.length === 0) {
+    //     document.querySelector('input[name="default_page"]').value = '0';
+    // }
+    const uniqueSelectedMethods = Array.from(updatedSelectedMethods);
         setSelectedMethods(uniqueSelectedMethods);
+
         if (uniqueSelectedMethods.length === 0) {
             document.querySelector('input[name="default_page"]').value = '0';
         }
-    };
+};
 
 
+
+
+
+
+    // const handleCheckboxClick = (methodId) => {
+    //     // Find the controller containing the method with the specified methodId
+    //     const controllerWithMethodId = usersRoleCreate
+    //         .flatMap((roleCreate) => roleCreate.controllers)
+    //         .find((controllers) =>
+    //             controllers.display_names.some((display) =>
+    //                 display.method_names.some((m) => m.method_id === methodId)
+    //             )
+    //         );
+
+    //     if (controllerWithMethodId) {
+    //         const controllerName = controllerWithMethodId.controller_name;
+    //         console.log(`Controller Name: ${controllerName}`);
+
+    //         // Access the method_sort from controllerWithMethodId
+    //         const method = controllerWithMethodId.display_names
+    //             .flatMap((display) => display.method_names)
+    //             .find((m) => m.method_id === methodId);
+
+    //         if (method) {
+    //             const method_sort = method.method_sort;
+
+    //             if (method_sort === 0) {
+    //                 // Toggle the checked state of all display_names in the same controller
+    //                 controllerWithMethodId.display_names.forEach((display) => {
+    //                     const displayMethodId = display.method_names[0].method_id;
+    //                     const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+    //                     if (checkbox) {
+    //                         checkbox.checked = !checkbox.checked; // Toggle the checked state
+    //                         if (checkbox.checked) {
+    //                             console.log(`Checking ${display.display_name}`);
+    //                             // Perform your checkbox checking logic here
+    //                         } else {
+    //                             console.log(`Unchecking ${display.display_name}`);
+    //                             // Perform your checkbox unchecking logic here
+    //                         }
+    //                     }
+    //                 });
+    //             } else if (method_sort === 0) {
+    //                 // Check the clicked display_name if its method_sort is 0
+    //                 const checkbox = document.getElementById(`yourCheckboxId_${methodId}`);
+    //                 if (checkbox) {
+    //                     checkbox.checked = !checkbox.checked; // Toggle the checked state
+    //                     if (checkbox.checked) {
+    //                         console.log(`Checking ${controllerWithMethodId.display_name}`);
+    //                         // Perform your checkbox checking logic here
+    //                     } else {
+    //                         console.log(`Unchecking ${controllerWithMethodId.display_name}`);
+    //                         // Perform your checkbox unchecking logic here
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     } else {
+    //         console.log('Controller not found for the specified methodId.');
+    //     }
+    // };
+  
+ 
+
+    // const handleCheckboxClick = (methodId) => {
+
+    //     const controllerWithMethodId = usersRoleCreate
+    //         .flatMap((roleCreate) => roleCreate.controllers)
+    //         .find((controllers) =>
+    //             controllers.display_names.some((display) =>
+    //                 display.method_names.some((m) => m.method_id === methodId)
+    //             )
+    //         );
+    //     console.log(controllerWithMethodId)
+
+    //     const method_sort = controllerWithMethodId.display_names.map(display_name => display_name.method_names.map(methodName => methodName.method_sort))
+
+    //     console.log(method_sort)
+
+
+    //     if (controllerWithMethodId) {
+    //         const controllerName = controllerWithMethodId.controller_name;
+    //         console.log(`Controller Name: ${controllerName}`);
+
+    //         // Access the method_sort from controllerWithMethodId
+    //         const method_sort = controllerWithMethodId.display_names
+    //             .flatMap((display) => display.method_names)
+    //             .find((m) => m.method_id === methodId)
+    //             ?.method_sort;
+
+    //         if (method_sort !== undefined) {
+    //             console.log(`Method Sort: ${method_sort}`);
+    //         } else {
+    //             console.log(`Method Sort not found for Method ID ${methodId}`);
+    //         }
+    //     } else {
+    //         console.log('Controller not found for the specified methodId.');
+    //     }
+
+    // };
 
 
     const [doubleClickedDisplayName, setDoubleClickedDisplayName] = useState(0);
@@ -358,31 +639,44 @@ const UsersRoleCreates = () => {
 
 
 
+
+
+
+
     const [createAllChecked, setCreateAllChecked] = useState(false);
+    // const handleCreateAllChange = (isChecked) => {
+
+    //     setCreateAllChecked(isChecked);
+
+    //     if (isChecked) {
+    //         // If "Create All" is checked, get the method IDs to check
+    //         const methodIdsToCheck = filteredDisplayNames.map((method) => method.method_id);
+
+    //         // Check the method IDs for "Create All"
+    //         setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
+    //     } else {
+    //         // If "Create All" is unchecked, clear selected checkboxes for "Create All" methods
+    //         setSelectedMethods((prevSelectedMethods) => prevSelectedMethods.filter((methodId) => !filteredDisplayNames.some((method) => method.method_id === methodId)));
+    //     }
+    // };
     const handleCreateAllChange = (isChecked) => {
-        // setCreateAllChecked(isChecked);
-
-        // if (isChecked) {
-        //     // If "Create All" is checked, check all checkboxes for the filtered display names
-        //     const methodIdsToCheck = filteredDisplayNames.map((method) => method.method_id);
-
-        //     // Add the method IDs to the selectedMethods state
-        //     setSelectedMethods(methodIdsToCheck);
-        // } else {
-        //     // If "Create All" is unchecked, clear selected checkboxes
-        //     setSelectedMethods([]);
-        // }
         setCreateAllChecked(isChecked);
 
         if (isChecked) {
             // If "Create All" is checked, get the method IDs to check
             const methodIdsToCheck = filteredDisplayNames.map((method) => method.method_id);
-    
+
             // Check the method IDs for "Create All"
             setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
         } else {
             // If "Create All" is unchecked, clear selected checkboxes for "Create All" methods
-            setSelectedMethods((prevSelectedMethods) => prevSelectedMethods.filter((methodId) => !filteredDisplayNames.some((method) => method.method_id === methodId)));
+            setSelectedMethods((prevSelectedMethods) => {
+                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+                return prevSelectedMethods.filter((methodId) => {
+                    const method = filteredDisplayNames.find((item) => item.method_id === methodId);
+                    return !method || method.method_sort === 0;
+                });
+            });
         }
     };
     const filteredDisplayNames = usersRoleCreate
@@ -394,54 +688,51 @@ const UsersRoleCreates = () => {
     console.log('Filtered Display Names create all:', filteredDisplayNames);
 
 
-    // const [viewAllChecked, setViewAllChecked] = useState(false);
-    // const handleViewAllChange = (isChecked) => {
-    //     setViewAllChecked(isChecked);
 
-    //     if (isChecked) {
-    //         // If "Create All" is checked, check all checkboxes for the filtered display names
-    //         const methodIdsToCheck = filteredDisplayNamesViewAll.map((method) => method.method_id);
 
-    //         // Add the method IDs to the selectedMethods state
-    //         setSelectedMethods(methodIdsToCheck);
-    //     } else {
-            
-    //         // If "Create All" is unchecked, clear selected checkboxes
-    //         setSelectedMethods([]);
-    //     }
-    // };
-    // const filteredDisplayNamesViewAll = usersRoleCreate
-    //     .flatMap((roleCreate) => roleCreate.controllers)
-    //     .flatMap((controllers) => controllers.display_names)
-    //     .flatMap((display) => display.method_names)
-    //     .filter((method) => [0, 2].includes(method.method_sort));
 
-    // console.log('Filtered Display Names view all:', filteredDisplayNamesViewAll);
+
+
+
+
+
     const [viewAllChecked, setViewAllChecked] = useState(false);
-  
-    
+
+
     const handleViewAllChange = (isChecked) => {
-      setViewAllChecked(isChecked);
-    
-      if (isChecked) {
-        // If "View All" is checked, get the method IDs to check
-        const methodIdsToCheck = filteredDisplayNamesViewAll.map((method) => method.method_id);
-    
-        // Check the method IDs for "View All"
-        setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
-      } else {
-        // If "View All" is unchecked, clear selected checkboxes for "View All" methods
-        setSelectedMethods((prevSelectedMethods) => prevSelectedMethods.filter((methodId) => !filteredDisplayNamesViewAll.some((method) => method.method_id === methodId)));
-      }
+        setViewAllChecked(isChecked);
+
+        if (isChecked) {
+            // If "View All" is checked, get the method IDs to check
+            const methodIdsToCheck = filteredDisplayNamesViewAll.map((method) => method.method_id);
+
+            // Check the method IDs for "View All"
+            setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
+        } else {
+            setSelectedMethods((prevSelectedMethods) => {
+                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+                return prevSelectedMethods.filter((methodId) => {
+                    const method = filteredDisplayNamesViewAll.find((item) => item.method_id === methodId);
+                    return !method || method.method_sort === 0;
+                });
+            });
+        }
     };
-    
-    // ...
-    
+
+
+
     const filteredDisplayNamesViewAll = usersRoleCreate
-      .flatMap((roleCreate) => roleCreate.controllers)
-      .flatMap((controllers) => controllers.display_names)
-      .flatMap((display) => display.method_names)
-      .filter((method) => [0, 2].includes(method.method_sort));
+        .flatMap((roleCreate) => roleCreate.controllers)
+        .flatMap((controllers) => controllers.display_names)
+        .flatMap((display) => display.method_names)
+        .filter((method) => [0, 2].includes(method.method_sort));
+
+
+
+
+
+
+
 
     const [editAllChecked, setEditAllChecked] = useState(false);
     const handleEditAllChange = (isChecked) => {
@@ -453,8 +744,14 @@ const UsersRoleCreates = () => {
 
             setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
         } else {
-            // If "Create All" is unchecked, clear selected checkboxes
-            setSelectedMethods((prevSelectedMethods) => prevSelectedMethods.filter((methodId) => !filteredDisplayNamesEditAll.some((method) => method.method_id === methodId)));
+
+            setSelectedMethods((prevSelectedMethods) => {
+                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+                return prevSelectedMethods.filter((methodId) => {
+                    const method = filteredDisplayNamesEditAll.find((item) => item.method_id === methodId);
+                    return !method || method.method_sort === 0;
+                });
+            });
         }
     };
     const filteredDisplayNamesEditAll = usersRoleCreate
@@ -466,6 +763,15 @@ const UsersRoleCreates = () => {
     console.log('Filtered Display Names edit all:', filteredDisplayNamesViewAll);
 
 
+
+
+
+
+
+
+
+
+
     const [copyAllChecked, setCopyAllChecked] = useState(false);
     const handleCopyAllChange = (isChecked) => {
         setCopyAllChecked(isChecked);
@@ -475,8 +781,13 @@ const UsersRoleCreates = () => {
             const methodIdsToCheck = filteredDisplayNamesCopyAll.map((method) => method.method_id);
             setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
         } else {
-            // If "Create All" is unchecked, clear selected checkboxes
-            setSelectedMethods((prevSelectedMethods) => prevSelectedMethods.filter((methodId) => !filteredDisplayNamesCopyAll.some((method) => method.method_id === methodId)));
+            setSelectedMethods((prevSelectedMethods) => {
+                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+                return prevSelectedMethods.filter((methodId) => {
+                    const method = filteredDisplayNamesCopyAll.find((item) => item.method_id === methodId);
+                    return !method || method.method_sort === 0;
+                });
+            });
         }
     };
     const filteredDisplayNamesCopyAll = usersRoleCreate
@@ -486,6 +797,15 @@ const UsersRoleCreates = () => {
         .filter((method) => [0, 1, 2, 4].includes(method.method_sort));
 
     console.log('Filtered Display Names copy all:', filteredDisplayNamesViewAll);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -500,8 +820,13 @@ const UsersRoleCreates = () => {
             // Add the method IDs to the selectedMethods state
             setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
         } else {
-            // If "Create All" is unchecked, clear selected checkboxes
-            setSelectedMethods((prevSelectedMethods) => prevSelectedMethods.filter((methodId) => !filteredDisplayNamesDeleteAll.some((method) => method.method_id === methodId)));
+            setSelectedMethods((prevSelectedMethods) => {
+                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+                return prevSelectedMethods.filter((methodId) => {
+                    const method = filteredDisplayNamesDeleteAll.find((item) => item.method_id === methodId);
+                    return !method || method.method_sort === 0;
+                });
+            });
         }
     };
     const filteredDisplayNamesDeleteAll = usersRoleCreate
@@ -544,6 +869,23 @@ const UsersRoleCreates = () => {
 
     // console.log('Filtered Display Names delete all:', filteredDisplayNamesViewAll);
 
+    // const [viewAllChecked, setViewAllChecked] = useState(false);
+
+
+    // const handleViewAllChange = (isChecked) => {
+    //   setViewAllChecked(isChecked);
+
+    //   if (isChecked) {
+    //     // If "View All" is checked, get the method IDs to check
+    //     const methodIdsToCheck = filteredDisplayNamesViewAll.map((method) => method.method_id);
+
+    //     // Check the method IDs for "View All"
+    //     setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
+    //   } else {
+    //     // If "View All" is unchecked, clear selected checkboxes for "View All" methods
+    //     setSelectedMethods((prevSelectedMethods) => prevSelectedMethods.filter((methodId) => !filteredDisplayNamesViewAll.some((method) => method.method_id === methodId)));
+    //   }
+    // };
 
 
     return (
@@ -657,6 +999,7 @@ const UsersRoleCreates = () => {
                                             {
                                                 roleCreate.controllers.map((controllers =>
                                                     <div key={controllers.id} className='border-bottom'>
+                                                        <p>{controllers.controller_name}</p>
                                                         {/* <input
                                                                             className="form-check-input"
                                                                             type="checkbox"
