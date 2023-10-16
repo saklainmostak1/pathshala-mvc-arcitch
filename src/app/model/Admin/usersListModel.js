@@ -262,7 +262,7 @@ const usersListModel = {
             console.log(error)
         }
     },
-    
+
     usersRole: async (req, res) => {
         try {
             const data = "select * from user_role";
@@ -270,10 +270,10 @@ const usersListModel = {
             connection.query(data, function (error, result) {
                 console.log(result, 'Saklain Mostak nayan')
                 if (!error) {
-                 
+
 
                     res.status(200).send(result)
-                    
+
                 }
 
                 else {
@@ -315,43 +315,135 @@ const usersListModel = {
           GROUP BY ap.page_group, ap.controller_name
           HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
         `;
-    
+
         connection.query(query, (error, results) => {
-          if (error) {
-            console.error('Error executing MySQL query:', error);
-            res.status(500).json({ message: 'Internal server error' });
-            return;
-          }
-    
-          // Process the data to group by page_group and create an object
-          const groupedData = results.reduce((acc, row) => {
-            const { page_group_id, page_group, controller_name, display_names, method_names } = row;
-            if (!acc[page_group]) {
-              acc[page_group] = {
-                page_group_id,
-                page_group,
-                controllers: [],
-              };
+            if (error) {
+                console.error('Error executing MySQL query:', error);
+                res.status(500).json({ message: 'Internal server error' });
+                return;
             }
-    
-            acc[page_group].controllers.push({
-              controller_name,
-              display_names: display_names.split(','),
-              method_names: method_names.split(','),
-            });
-    
-            return acc;
-          }, {});
-    
-          const responseData = Object.values(groupedData);
-    
-          if (responseData.length > 0) {
-            res.json(responseData);
-          } else {
-            res.status(404).json({ message: 'Data not found' });
-          }
+
+            // Process the data to group by page_group and create an object
+            const groupedData = results.reduce((acc, row) => {
+                const { page_group_id, page_group, controller_name, display_names, method_names } = row;
+                if (!acc[page_group]) {
+                    acc[page_group] = {
+                        page_group_id,
+                        page_group,
+                        controllers: [],
+                    };
+                }
+
+                acc[page_group].controllers.push({
+                    controller_name,
+                    display_names: display_names.split(','),
+                    method_names: method_names.split(','),
+                });
+
+                return acc;
+            }, {});
+
+            const responseData = Object.values(groupedData);
+
+            if (responseData.length > 0) {
+                res.json(responseData);
+            } else {
+                res.status(404).json({ message: 'Data not found' });
+            }
         });
-      },
+    },
+
+
+    userRoleCreate: async (req, res) => {
+       
+        // const { role_name, status, userPageListId, userDefaultPage } = req.body;
+
+        // // Insert data into the 'user_role' table
+        // connection.query(
+        //   'INSERT INTO user_role (role_name, status) VALUES (?, ?)',
+        //   [role_name, status],
+        //   (err, result) => {
+        //     if (err) {
+        //       console.error('Error inserting into user_role table: ' + err);
+        //       res.status(500).json({ message: 'Internal server error' });
+        //       return;
+        //     }
+      
+        //     const userRoleId = result.insertId;
+      
+        //     // Insert data into the 'user_role_permission' table
+        //     connection.query(
+        //       'INSERT INTO user_role_permission (user_page_list_id, user_default_page, user_role_id) VALUES (?, ?, ?)',
+        //       [userPageListId, userDefaultPage, userRoleId], // Replace userPageListId and userDefaultPage with the actual values
+        //       (err, permissionResult) => {
+        //         if (err) {
+        //           console.error('Error inserting into user_role_permission table: ' + err);
+        //           res.status(500).json({ message: 'Internal server error' });
+        //           return;
+        //         }
+      
+        //         res.status(201).json({
+        //           user_role_id: userRoleId,
+        //           role_name,
+        //           status,
+        //           user_page_list_id: userPageListId,
+        //           permission_id: permissionResult.insertId,
+        //         });
+        //       }
+        //     );
+        //   }
+        // );
+  
+        const { role_name, status, userPageListId, userDefaultPage } = req.body;
+
+        // Check if userPageListId is provided in the request and not null
+        if (userPageListId === undefined || userPageListId === null) {
+          res.status(400).json({ message: 'userPageListId is required and should not be null' });
+          return;
+        }
+        
+        // Check if userDefaultPage is provided in the request and not null
+        if (userDefaultPage === undefined || userDefaultPage === null) {
+          res.status(400).json({ message: 'userDefaultPage is required and should not be null' });
+          return;
+        }
+        
+        // Insert data into the 'user_role' table
+        connection.query(
+          'INSERT INTO user_role (role_name, status) VALUES (?, ?)',
+          [role_name, status],
+          (err, result) => {
+            if (err) {
+              console.error('Error inserting into user_role table: ' + err);
+              res.status(500).json({ message: 'Internal server error' });
+              return;
+            }
+        
+            const userRoleId = result.insertId;
+        
+            // Insert data into the 'user_role_permission' table
+            connection.query(
+              'INSERT INTO user_role_permission (user_page_list_id, user_default_page, user_role_id) VALUES (?, ?, ?)',
+              [userPageListId, userDefaultPage, userRoleId], // Replace userPageListId and userDefaultPage with the actual values
+              (err, permissionResult) => {
+                if (err) {
+                  console.error('Error inserting into user_role_permission table: ' + err);
+                  res.status(500).json({ message: 'Internal server error' });
+                  return;
+                }
+        
+                res.status(201).json({
+                  user_role_id: userRoleId,
+                  role_name,
+                  status,
+                  user_page_list_id: userPageListId,
+                  permission_id: permissionResult.insertId,
+                });
+              }
+            );
+          }
+        );
+    },
 
 
 

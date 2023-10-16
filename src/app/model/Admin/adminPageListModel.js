@@ -175,8 +175,8 @@ const AdminPageListModel = {
             const childRecords = [
               { display_name: `${display_name} Create`, method_name: `${controller_name}_create`, menu_type: 1, method_sort: 1 },
               { display_name: `${display_name} List`, method_name: `${controller_name}_all`, menu_type: 1, method_sort: 2 },
-              { display_name: `${display_name} Copy`, method_name: `${controller_name}_copy`, method_sort: 3 },
-              { display_name: `${display_name} Edit`, method_name: `${controller_name}_edit`, method_sort: 4 },
+              { display_name: `${display_name} Copy`, method_name: `${controller_name}_copy`, method_sort: 4 },
+              { display_name: `${display_name} Edit`, method_name: `${controller_name}_edit`, method_sort: 3 },
               { display_name: `${display_name} Delete`, method_name: `${controller_name}_delete`, method_sort: 5 },
             ];
 
@@ -921,12 +921,135 @@ const AdminPageListModel = {
     //         res.status(404).json({ message: 'Data not found' });
     //     }
     // });
-    const query = `
-        SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name, ap.parent_id, ap.menu_type
-        FROM admin_page_list ap
-        GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
-        HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
-    `;
+//     const query = `
+//         SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name, ap.parent_id, ap.menu_type
+//         FROM admin_page_list ap
+//         GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
+//         HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
+//     `;
+
+// connection.query(query, (error, results) => {
+//     if (error) {
+//         console.error('Error executing MySQL query:', error);
+//         res.status(500).json({ message: 'Internal server error' });
+//         return;
+//     }
+
+//     // Process the data to group by page_group and create an object
+//     const groupedData = results.reduce((acc, row) => {
+//         const { page_group_id, page_group, controller_name, display_name, method_id, method_name, parent_id, menu_type } = row;
+//         if (!acc[page_group]) {
+//             acc[page_group] = {
+//                 page_group_id,
+//                 page_group,
+//                 controllers: [],
+//             };
+//         }
+
+//         const controller = acc[page_group].controllers.find((c) => c.controller_name === controller_name);
+
+//         if (controller) {
+//             const display = controller.display_names.find((display) => display.display_name === display_name);
+//             if (display) {
+//                 const method = display.method_names.find((method) => method.method_id === method_id);
+//                 if (method) {
+//                     // If method already exists, just add parent_id and menu_type
+//                     method.parent_id = parent_id;
+//                     method.menu_type = menu_type;
+//                 } else {
+//                     display.method_names.push({ method_id, method_name, parent_id, menu_type });
+//                 }
+//             } else {
+//                 controller.display_names.push({ display_name, method_names: [{ method_id, method_name, parent_id, menu_type }] });
+//             }
+//         } else {
+//             acc[page_group].controllers.push({
+//                 controller_name,
+//                 display_names: [{ display_name, method_names: [{ method_id, method_name, parent_id, menu_type }] }],
+//             });
+//         }
+
+//         return acc;
+//     }, {});
+
+//     const responseData = Object.values(groupedData);
+
+//     if (responseData.length > 0) {
+//         res.json(responseData);
+//     } else {
+//         res.status(404).json({ message: 'Data not found' });
+//     }
+// });
+
+
+// const query = `
+//     SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name, ap.parent_id, ap.menu_type
+//     FROM admin_page_list ap
+//     GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
+//     HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
+// `;
+
+// connection.query(query, (error, results) => {
+//     if (error) {
+//         console.error('Error executing MySQL query:', error);
+//         res.status(500).json({ message: 'Internal server error' });
+//         return;
+//     }
+
+//     // Process the data to group by page_group and create an object
+//     const groupedData = results.reduce((acc, row) => {
+//         const { page_group_id, page_group, controller_name, display_name, method_id, method_name, parent_id, menu_type } = row;
+//         const pageGroupLowerCase = page_group.toLowerCase(); // Convert to lowercase
+
+//         if (!acc[pageGroupLowerCase]) {
+//             acc[pageGroupLowerCase] = {
+//                 page_group_id,
+//                 page_group: pageGroupLowerCase, // Store in lowercase
+//                 controllers: [],
+//             };
+//         }
+
+//         const controller = acc[pageGroupLowerCase].controllers.find((c) => c.controller_name.toLowerCase() === controller_name.toLowerCase()); // Compare in lowercase
+
+//         if (controller) {
+//             const display = controller.display_names.find((display) => display.display_name.toLowerCase() === display_name.toLowerCase()); // Compare in lowercase
+//             if (display) {
+//                 const method = display.method_names.find((method) => method.method_id === method_id);
+//                 if (method) {
+//                     // If method already exists, just add parent_id and menu_type
+//                     method.parent_id = parent_id;
+//                     method.menu_type = menu_type;
+//                 } else {
+//                     display.method_names.push({ method_id, method_name, parent_id, menu_type });
+//                 }
+//             } else {
+//                 controller.display_names.push({ display_name, method_names: [{ method_id, method_name, parent_id, menu_type }] });
+//             }
+//         } else {
+//             acc[pageGroupLowerCase].controllers.push({
+//                 controller_name,
+//                 display_names: [{ display_name, method_names: [{ method_id, method_name, parent_id, menu_type }] }],
+//             });
+//         }
+
+//         return acc;
+//     }, {});
+
+//     const responseData = Object.values(groupedData);
+
+//     if (responseData.length > 0) {
+//         res.json(responseData);
+//     } else {
+//         res.status(404).json({ message: 'Data not found' });
+//     }
+// });
+
+const query = `
+    SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name, ap.parent_id, ap.menu_type, ap.method_sort
+    FROM admin_page_list ap
+    GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
+    HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
+`;
 
 connection.query(query, (error, results) => {
     if (error) {
@@ -937,35 +1060,38 @@ connection.query(query, (error, results) => {
 
     // Process the data to group by page_group and create an object
     const groupedData = results.reduce((acc, row) => {
-        const { page_group_id, page_group, controller_name, display_name, method_id, method_name, parent_id, menu_type } = row;
-        if (!acc[page_group]) {
-            acc[page_group] = {
+        const { page_group_id, page_group, controller_name, display_name, method_id, method_name, parent_id, menu_type, method_sort } = row;
+        const pageGroupLowerCase = page_group.toLowerCase(); // Convert to lowercase
+
+        if (!acc[pageGroupLowerCase]) {
+            acc[pageGroupLowerCase] = {
                 page_group_id,
-                page_group,
+                page_group: pageGroupLowerCase, // Store in lowercase
                 controllers: [],
             };
         }
 
-        const controller = acc[page_group].controllers.find((c) => c.controller_name === controller_name);
+        const controller = acc[pageGroupLowerCase].controllers.find((c) => c.controller_name.toLowerCase() === controller_name.toLowerCase()); // Compare in lowercase
 
         if (controller) {
-            const display = controller.display_names.find((display) => display.display_name === display_name);
+            const display = controller.display_names.find((display) => display.display_name.toLowerCase() === display_name.toLowerCase()); // Compare in lowercase
             if (display) {
                 const method = display.method_names.find((method) => method.method_id === method_id);
                 if (method) {
-                    // If method already exists, just add parent_id and menu_type
+                    // If method already exists, just add parent_id, menu_type, and method_sort
                     method.parent_id = parent_id;
                     method.menu_type = menu_type;
+                    method.method_sort = method_sort;
                 } else {
-                    display.method_names.push({ method_id, method_name, parent_id, menu_type });
+                    display.method_names.push({ method_id, method_name, parent_id, menu_type, method_sort });
                 }
             } else {
-                controller.display_names.push({ display_name, method_names: [{ method_id, method_name, parent_id, menu_type }] });
+                controller.display_names.push({ display_name, method_names: [{ method_id, method_name, parent_id, menu_type, method_sort }] });
             }
         } else {
-            acc[page_group].controllers.push({
+            acc[pageGroupLowerCase].controllers.push({
                 controller_name,
-                display_names: [{ display_name, method_names: [{ method_id, method_name, parent_id, menu_type }] }],
+                display_names: [{ display_name, method_names: [{ method_id, method_name, parent_id, menu_type, method_sort }] }],
             });
         }
 
@@ -988,59 +1114,64 @@ connection.query(query, (error, results) => {
 
   getPageGroupAndControllerNamesssId: async (req, res) => {
     const query = `
-        SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.method_name
-        FROM admin_page_list ap
-        WHERE ap.parent_id != 0
-        AND ap.menu_type = 1 
-        GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.method_name
-        HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
-      `;
+    SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.method_name
+    FROM admin_page_list ap
+    WHERE ap.parent_id != 0
+    AND ap.menu_type = 1 
+    GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.method_name
+    HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
+  `;
 
-    connection.query(query, (error, results) => {
-      if (error) {
-        console.error('Error executing MySQL query:', error);
-        res.status(500).json({ message: 'Internal server error' });
-        return;
-      }
+connection.query(query, (error, results) => {
+  if (error) {
+    console.error('Error executing MySQL query:', error);
+    res.status(500).json({ message: 'Internal server error' });
+    return;
+  }
 
-      // Process the data to group by page_group and create an object
-      const groupedData = results.reduce((acc, row) => {
-        const { page_group_id, page_group, controller_name, display_name, method_name } = row;
-        if (!acc[page_group]) {
-          acc[page_group] = {
-            page_group_id,
-            page_group,
-            controllers: [],
-          };
-        }
+  // Helper function to compare names case-insensitively
+  const areNamesEqual = (name1, name2) => name1.toLowerCase() === name2.toLowerCase();
 
-        const controller = acc[page_group].controllers.find((c) => c.controller_name === controller_name);
+  // Process the data to group by page_group and create an object
+  const groupedData = results.reduce((acc, row) => {
+    const { page_group_id, page_group, controller_name, display_name, method_name } = row;
+    const pageGroupLowerCase = page_group.toLowerCase(); // Convert to lowercase
 
-        if (controller) {
-          const display = controller.display_names.find((display) => display.display_name === display_name);
-          if (display) {
-            display.method_names.push(method_name);
-          } else {
-            controller.display_names.push({ display_name, method_names: [method_name] });
-          }
-        } else {
-          acc[page_group].controllers.push({
-            controller_name,
-            display_names: [{ display_name, method_names: [method_name] }],
-          });
-        }
+    if (!acc[pageGroupLowerCase]) {
+      acc[pageGroupLowerCase] = {
+        page_group_id,
+        page_group: pageGroupLowerCase, // Store in lowercase
+        controllers: [],
+      };
+    }
 
-        return acc;
-      }, {});
+    const controller = acc[pageGroupLowerCase].controllers.find((c) => areNamesEqual(c.controller_name, controller_name)); // Compare names case-insensitively
 
-      const responseData = Object.values(groupedData);
-
-      if (responseData.length > 0) {
-        res.json(responseData);
+    if (controller) {
+      const display = controller.display_names.find((display) => areNamesEqual(display.display_name, display_name)); // Compare names case-insensitively
+      if (display) {
+        display.method_names.push(method_name);
       } else {
-        res.status(404).json({ message: 'Data not found' });
+        controller.display_names.push({ display_name, method_names: [method_name] });
       }
-    });
+    } else {
+      acc[pageGroupLowerCase].controllers.push({
+        controller_name,
+        display_names: [{ display_name, method_names: [method_name] }],
+      });
+    }
+
+    return acc;
+  }, {});
+
+  const responseData = Object.values(groupedData);
+
+  if (responseData.length > 0) {
+    res.json(responseData);
+  } else {
+    res.status(404).json({ message: 'Data not found' });
+  }
+});
   },
 
 
