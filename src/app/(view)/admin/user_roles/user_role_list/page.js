@@ -36,9 +36,10 @@ const UsersRoleList = () => {
     const filteredBtnIconDelete = btnIconUsers.filter(btn =>
         btn.method_sort === 5
     );
-    const filteredBtnIconCreate = btnIconUsers.filter(btn =>
-        btn.method_sort === 1
+    const filteredBtnIcon = btnIconUsers.filter(btn =>
+        btn.method_sort === 3
     );
+ 
 
     return (
         <div className="col-md-12 bg-light body-content  p-4">
@@ -66,8 +67,9 @@ const UsersRoleList = () => {
 
                                         <tr key={userRle.id}>
                                             <td>{userRle.role_name}</td>
+                                           
                                             <td>
-                                                <Link href={``}>
+                                                <Link href={`/Admin/${filteredBtnIcon.map(btn => btn.controller_name)}/${filteredBtnIcon.map(btn => btn.method_name)}/${userRle.id}?page_group=${filteredBtnIcon.map(btn => btn.page_group)}`}>
                                                     {
                                                         filteredBtnIconEdit.map((filteredBtnIconEdit =>
 
