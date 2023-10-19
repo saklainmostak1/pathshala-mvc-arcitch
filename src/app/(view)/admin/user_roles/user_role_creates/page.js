@@ -1443,13 +1443,13 @@ const UsersRoleCreates = () => {
     console.log('Filtered Display Names delete all:', filteredDisplayNamesViewAll);
 
 
-    const [loading, setLoading] = useState(false)
-    useEffect(() => {
-        setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 2500)
-    }, [])
+    if (isLoading) {
+        <div class=" d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    }
 
     // const [deleteAllChecked, setDeleteAllChecked] = useState(false);
     // const handleDeleteAllChange = (isChecked) => {
@@ -1632,15 +1632,11 @@ const UsersRoleCreates = () => {
 
 
 
-                                {loading ?
 
 
-                                    <div class=" d-flex justify-content-center">
-                                        <div class="spinner-border" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                        </div>
-                                    </div>
-                                    :
+
+                                {
+
                                     usersRoleCreate.map((roleCreate =>
                                         <div key={roleCreate.id}>
 
