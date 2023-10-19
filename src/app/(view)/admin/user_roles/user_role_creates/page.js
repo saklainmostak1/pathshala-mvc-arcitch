@@ -1183,7 +1183,7 @@ const UsersRoleCreates = () => {
         const formData = {
             user_default_page: document.querySelector('input[name="default_page"]').value,
             role_name: roleName,
-            user_page_list_id: selectedMethods,
+            user_page_list_id: selectedMethods.toString(),
             status: document.querySelector('input[name="status"]').value,
         };
 
@@ -1191,7 +1191,7 @@ const UsersRoleCreates = () => {
         console.log('Form Data:', formData);
         // http://192.168.0.110:5002/user/user-role-create
 
-        fetch('', {
+        fetch('http://192.168.0.110:5002/user/user-role-create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1236,7 +1236,7 @@ const UsersRoleCreates = () => {
     const handleCreateAllChange = (isChecked) => {
         setCreateAllChecked(isChecked);
 
-        if (isChecked) {
+        if (isChecked ) {
             // If "Create All" is checked, get the method IDs to check
             const methodIdsToCheck = filteredDisplayNames.map((method) => method.method_id);
 
@@ -1248,7 +1248,7 @@ const UsersRoleCreates = () => {
                 // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
                 return prevSelectedMethods.filter((methodId) => {
                     const method = filteredDisplayNames.find((item) => item.method_id === methodId);
-                    return !method || method.method_sort === 0;
+                    return !method  || method.method_sort === 0;
                 });
             });
         }

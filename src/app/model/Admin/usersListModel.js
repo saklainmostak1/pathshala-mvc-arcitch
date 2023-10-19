@@ -354,100 +354,75 @@ const usersListModel = {
     },
 
 
+   
     userRoleCreate: async (req, res) => {
-       
-        // const { role_name, status, userPageListId, userDefaultPage } = req.body;
-
-        // // Insert data into the 'user_role' table
-        // connection.query(
-        //   'INSERT INTO user_role (role_name, status) VALUES (?, ?)',
-        //   [role_name, status],
-        //   (err, result) => {
-        //     if (err) {
-        //       console.error('Error inserting into user_role table: ' + err);
-        //       res.status(500).json({ message: 'Internal server error' });
-        //       return;
-        //     }
+        const { role_name, status, user_page_list_id, user_default_page } = req.body;
       
-        //     const userRoleId = result.insertId;
-      
-        //     // Insert data into the 'user_role_permission' table
-        //     connection.query(
-        //       'INSERT INTO user_role_permission (user_page_list_id, user_default_page, user_role_id) VALUES (?, ?, ?)',
-        //       [userPageListId, userDefaultPage, userRoleId], // Replace userPageListId and userDefaultPage with the actual values
-        //       (err, permissionResult) => {
-        //         if (err) {
-        //           console.error('Error inserting into user_role_permission table: ' + err);
-        //           res.status(500).json({ message: 'Internal server error' });
-        //           return;
-        //         }
-      
-        //         res.status(201).json({
-        //           user_role_id: userRoleId,
-        //           role_name,
-        //           status,
-        //           user_page_list_id: userPageListId,
-        //           permission_id: permissionResult.insertId,
-        //         });
-        //       }
-        //     );
-        //   }
-        // );
-  
-        const { role_name, status, userPageListId, userDefaultPage } = req.body;
-
-        // Check if userPageListId is provided in the request and not null
-        if (userPageListId === undefined || userPageListId === null) {
-          res.status(400).json({ message: 'userPageListId is required and should not be null' });
+        // Check if role_name, status, user_page_list_id, and user_default_page are provided and not null
+        if (!role_name || !status || !user_page_list_id || !user_default_page) {
+          res.status(400).json({ message: 'role_name, status, user_page_list_id, and user_default_page are required and should not be null' });
           return;
         }
-        
-        // Check if userDefaultPage is provided in the request and not null
-        if (userDefaultPage === undefined || userDefaultPage === null) {
-          res.status(400).json({ message: 'userDefaultPage is required and should not be null' });
-          return;
-        }
-        
-        // Insert data into the 'user_role' table
-        connection.query(
-          'INSERT INTO user_role (role_name, status) VALUES (?, ?)',
-          [role_name, status],
-          (err, result) => {
-            if (err) {
-              console.error('Error inserting into user_role table: ' + err);
-              res.status(500).json({ message: 'Internal server error' });
-              return;
-            }
-        
-            const userRoleId = result.insertId;
-        
-            // Insert data into the 'user_role_permission' table
-            connection.query(
-              'INSERT INTO user_role_permission (user_page_list_id, user_default_page, user_role_id) VALUES (?, ?, ?)',
-              [userPageListId, userDefaultPage, userRoleId], // Replace userPageListId and userDefaultPage with the actual values
-              (err, permissionResult) => {
-                if (err) {
-                  console.error('Error inserting into user_role_permission table: ' + err);
-                  res.status(500).json({ message: 'Internal server error' });
-                  return;
-                }
-        
-                res.status(201).json({
-                  user_role_id: userRoleId,
-                  role_name,
-                  status,
-                  user_page_list_id: userPageListId,
-                  permission_id: permissionResult.insertId,
-                });
-              }
-            );
+      
+        // Start a database transaction
+        connection.beginTransaction((err) => {
+          if (err) {
+            console.error('Error starting database transaction: ' + err);
+            res.status(500).json({ message: 'Internal server error' });
+            return;
           }
-        );
-    },
-
-
-
-
+      
+          // Insert data into the 'user_role' table
+          connection.query(
+            'INSERT INTO user_role (role_name, status) VALUES (?, ?)',
+            [role_name, status],
+            (err, result) => {
+              if (err) {
+                // Rollback the transaction on error
+                connection.rollback(() => {
+                  console.error('Error inserting into user_role table: ' + err);
+                  res.status(500).json({ message: 'Internal server error' });
+                });
+                return;
+              }
+              const userRoleId = result.insertId;
+      
+              // Insert data into the 'user_role_permission' table
+              connection.query(
+                'INSERT INTO user_role_permission (user_page_list_id, user_default_page, user_role_id) VALUES (?, ?, ?)',
+                [user_page_list_id, user_default_page, userRoleId],
+                (err, permissionResult) => {
+                  if (err) {
+                    // Rollback the transaction on error
+                    connection.rollback(() => {
+                      console.error('Error inserting into user_role_permission table: ' + err);
+                      res.status(500).json({ message: 'Internal server error' });
+                    });
+                    return;
+                  }
+      
+                  // Commit the transaction when both inserts are successful
+                  connection.commit((err) => {
+                    if (err) {
+                      console.error('Error committing the transaction: ' + err);
+                      res.status(500).json({ message: 'Internal server error' });
+                      return;
+                    }
+      
+                    res.status(201).json({
+                      user_role_id: userRoleId,
+                      role_name,
+                      status,
+                      user_page_list_id,
+                      user_default_page,
+                    });
+                  });
+                }
+              );
+            }
+          );
+        });
+      }
 }
 
 module.exports = usersListModel
