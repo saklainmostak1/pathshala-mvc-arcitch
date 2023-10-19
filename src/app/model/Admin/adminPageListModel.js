@@ -814,8 +814,9 @@ const AdminPageListModel = {
   //   });
   // },
 
-  getPageGroupAndDisplayNameWithId: async (req, res) => {
-    //     const query = `
+  // getPageGroupAndDisplayNameWithId: async (req, res) => {
+ 
+   //     const query = `
     //     SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id
     //     FROM admin_page_list ap
     //     GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
@@ -1044,6 +1045,12 @@ const AdminPageListModel = {
 //     }
 // });
 
+  //     },
+
+
+  getPageGroupAndDisplayNameWithId: async (req, res) => {
+ 
+
 const query = `
     SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name, ap.parent_id, ap.menu_type, ap.method_sort
     FROM admin_page_list ap
@@ -1107,7 +1114,7 @@ connection.query(query, (error, results) => {
     }
 });
       },
-    
+
     
     
 

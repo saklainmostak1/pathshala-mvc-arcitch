@@ -612,33 +612,6 @@ const UserRoleEdit = () => {
 
 
 
-                // else if (method_sort === 1) {
-                //     // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
-                //     console.log("Checked Method Sorts:", checkedMethodSorts);
-                //     let checkedMethodSortCount = 0;
-
-
-                //     controllerWithMethodId.display_names.forEach((display) => {
-                //         display.method_names.forEach((m) => {
-                //             if (m.method_sort === 0 || m.method_sort === 2 || m.method_sort === 4) {
-                //                 const displayMethodId = m.method_id;
-                //                 if (checked || m.method_sort === 0) {
-                //                     updatedSelectedMethods.add(displayMethodId);
-                //                     checkedMethodSortCount++
-                //                 } else {
-                //                     updatedSelectedMethods.delete(displayMethodId);
-                //                 }
-
-                //                 // You can also update the checkbox state here
-                //                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
-                //                 if (checkbox) {
-                //                     checkbox.checked = checked;
-                //                 }
-                //             }
-                //         });
-                //     });
-                //     console.log("Total method_sort values: ", checkedMethodSortCount);
-                // }
                 else if (method_sort === 1) {
                     // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
                     console.log("Checked Method Sorts:", checkedMethodSorts);
@@ -666,7 +639,8 @@ const UserRoleEdit = () => {
                     });
                     console.log("Total method_sort values: ", checkedMethodSortCount);
                 }
-           
+                
+               
 
             else if (method_sort === 2) {
                 // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1

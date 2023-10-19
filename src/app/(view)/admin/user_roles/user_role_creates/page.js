@@ -609,130 +609,390 @@ const UsersRoleCreates = () => {
                 
                 
                 
+                // else if (method_sort === 1) {
+                //     let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
+                //     console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    
+                //     controllerWithMethodId.display_names.forEach((display) => {
+                //         display.method_names.forEach((m) => {
+                //             if (m.method_sort === 0 || m.method_sort === 2 || m.method_sort === 4) {
+                //                 const displayMethodId = m.method_id;
+                //                 if (checked ) {
+                //                     updatedSelectedMethods.add(displayMethodId);
+                                    
+                //                      // Increment the count when a method_sort is checked
+                //                 } else  {
+                //                     updatedSelectedMethods.delete(displayMethodId);
+                //                 }
+
+                //                 // You can also update the checkbox state here
+                //                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                //                 if (checkbox) {
+                //                     checkbox.checked = checked;
+                //                 }
+                //             }
+                //         });
+                //     });
+                    
+                //     // console.log("Total method_sort values: ", checkedMethodSortCount1);
+                // }
+               
+                // else if (method_sort === 1) {
+                //     let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
+                //     console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    
+                //     controllerWithMethodId.display_names.forEach((display) => {
+                //         display.method_names.forEach((m) => {
+                //             if (m.method_sort === 0 || m.method_sort === 2 || m.method_sort === 4) {
+                //                 const displayMethodId = m.method_id;
+                //                 if (checked ) {
+                //                     updatedSelectedMethods.add(displayMethodId);
+                                    
+                //                      // Increment the count when a method_sort is checked
+                //                 } else  {
+                //                     updatedSelectedMethods.delete(displayMethodId);
+                //                 }
+
+                //                 // You can also update the checkbox state here
+                //                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                //                 if (checkbox) {
+                //                     checkbox.checked = checked;
+                //                 }
+                //             }
+                //         });
+                //     });
+                    
+                //     // console.log("Total method_sort values: ", checkedMethodSortCount1);
+                // }
+                // else if (method_sort === 2) {
+                //     // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
+                //     console.log("Checked Method Sorts:", checkedMethodSorts);
+                //     let checkedMethodSortCount = 0;
+
+
+                //     controllerWithMethodId.display_names.forEach((display) => {
+                //         display.method_names.forEach((m) => {
+                //             if (m.method_sort === 0) {
+                //                 const displayMethodId = m.method_id;
+                //                 if (checked || m.method_sort === 0) {
+                //                     updatedSelectedMethods.add(displayMethodId);
+                //                     checkedMethodSortCount++
+                //                 } else {
+                //                     updatedSelectedMethods.delete(displayMethodId);
+                //                 }
+
+                //                 // You can also update the checkbox state here
+                //                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                //                 if (checkbox) {
+                //                     checkbox.checked = checked;
+                //                 }
+                //             }
+                //         });
+                //     });
+                //     console.log("Total method_sort values: ", checkedMethodSortCount);
+                // }
+                // else if (method_sort === 3) {
+                //     console.log("Checked Method Sorts:", checkedMethodSorts);
+                //     // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
+                //     let checkedMethodSortCount = 0;
+                //     controllerWithMethodId.display_names.forEach((display) => {
+                //         display.method_names.forEach((m) => {
+                //             if (m.method_sort === 0 || m.method_sort === 2) {
+                //                 const displayMethodId = m.method_id;
+                //                 if (checked || m.method_sort === 0) {
+                //                     updatedSelectedMethods.add(displayMethodId);
+                //                     checkedMethodSortCount++
+                //                 } else {
+                //                     updatedSelectedMethods.delete(displayMethodId);
+                //                 }
+
+                //                 // You can also update the checkbox state here
+                //                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                //                 if (checkbox) {
+                //                     checkbox.checked = checked;
+                //                 }
+                //             }
+                //         });
+                //     });
+                //     console.log("Total method_sort values: ", checkedMethodSortCount);
+                // }
+                // else if (method_sort === 4) {
+                //     console.log("Checked Method Sorts:", checkedMethodSorts);
+                //     // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
+                //     controllerWithMethodId.display_names.forEach((display) => {
+                //         display.method_names.forEach((m) => {
+                //             if (m.method_sort === 0 || m.method_sort === 1 || m.method_sort === 2 ) {
+                //                 const displayMethodId = m.method_id;
+                //                 if (checked || m.method_sort === 0) {
+                //                     updatedSelectedMethods.add(displayMethodId);
+                //                 } else {
+                //                     updatedSelectedMethods.delete(displayMethodId);
+                //                 }
+
+                //                 // You can also update the checkbox state here
+                //                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                //                 if (checkbox) {
+                //                     checkbox.checked = checked;
+                //                 }
+                //             }
+                //         });
+                //     });
+                // }
+                // else if (method_sort === 5) {
+                //     console.log("Checked Method Sorts:", checkedMethodSorts);
+                //     // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
+                //     controllerWithMethodId.display_names.forEach((display) => {
+                //         display.method_names.forEach((m) => {
+                //             if (m.method_sort === 0 || m.method_sort === 2) {
+                //                 const displayMethodId = m.method_id;
+                //                 if (checked || m.method_sort === 0) {
+                //                     updatedSelectedMethods.add(displayMethodId);
+                //                 } else {
+                //                     updatedSelectedMethods.delete(displayMethodId);
+                //                 }
+
+                //                 // You can also update the checkbox state here
+                //                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                //                 if (checkbox) {
+                //                     checkbox.checked = checked;
+                //                 }
+                //             }
+                //         });
+                //     });
+                // }
+
                 else if (method_sort === 1) {
                     let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
                     console.log("Checked Method Sorts length:", checkedMethodSorts);
-                    
+                    let shouldUncheck0And3 = false; // Initialize a flag
+                
+                    // Check if any of the checkboxes for method_sort 3 are currently checked
+                    const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
+                    controllerWithMethodId.display_names.forEach((display) => {
+                        display.method_names.forEach((m) => {
+                            if (m.method_sort === 3 || m.method_sort === 5) {
+                                const displayMethodId = m.method_id;
+                                const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                                if (checkbox) {
+                                    methodSort3Checkboxes.push(checkbox);
+                                    if (checkbox.checked) {
+                                        shouldUncheck0And3 = true;
+                                    }
+                                }
+                            }
+                        });
+                    });
+                
+                    if (checked) {
+                        shouldUncheck0And3 = false;
+                    }
+                
+                    // Process the checkboxes for method_sort 0 and 2
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
                             if (m.method_sort === 0 || m.method_sort === 2 || m.method_sort === 4) {
                                 const displayMethodId = m.method_id;
-                                if (checked || m.method_sort === 0) {
+                                if (checked || shouldUncheck0And3 ) {
                                     updatedSelectedMethods.add(displayMethodId);
-                                    
-                                     // Increment the count when a method_sort is checked
-                                } else  {
+                                } else {
                                     updatedSelectedMethods.delete(displayMethodId);
                                 }
-
-                                // You can also update the checkbox state here
+                
+                                // Update the checkbox state
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
-                                    checkbox.checked = checked;
+                                    checkbox.checked = checked || !shouldUncheck0And3;
                                 }
                             }
                         });
                     });
-                    
-                    // console.log("Total method_sort values: ", checkedMethodSortCount1);
                 }
-            
                 else if (method_sort === 2) {
-                    // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
-                    console.log("Checked Method Sorts:", checkedMethodSorts);
-                    let checkedMethodSortCount = 0;
-
-
+                    let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
+                    console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    let shouldUncheck0And3 = false; // Initialize a flag
+                
+                    // Check if any of the checkboxes for method_sort 3 are currently checked
+                    const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
-                            if (m.method_sort === 0) {
+                            if (m.method_sort === 1 || m.method_sort === 3 || m.method_sort === 5 || m.method_sort === 4) {
                                 const displayMethodId = m.method_id;
-                                if (checked || m.method_sort === 0) {
-                                    updatedSelectedMethods.add(displayMethodId);
-                                    checkedMethodSortCount++
-                                } else {
-                                    updatedSelectedMethods.delete(displayMethodId);
-                                }
-
-                                // You can also update the checkbox state here
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
-                                    checkbox.checked = checked;
+                                    methodSort3Checkboxes.push(checkbox);
+                                    if (checkbox.checked) {
+                                        shouldUncheck0And3 = true;
+                                    }
                                 }
                             }
                         });
                     });
-                    console.log("Total method_sort values: ", checkedMethodSortCount);
+                
+                    if (checked) {
+                        shouldUncheck0And3 = false;
+                    }
+                
+                    // Process the checkboxes for method_sort 0 and 2
+                    controllerWithMethodId.display_names.forEach((display) => {
+                        display.method_names.forEach((m) => {
+                            if (m.method_sort === 0 ) {
+                                const displayMethodId = m.method_id;
+                                if (checked || shouldUncheck0And3) {
+                                    updatedSelectedMethods.add(displayMethodId);
+                                } else {
+                                    updatedSelectedMethods.delete(displayMethodId);
+                                }
+                
+                                // Update the checkbox state
+                                const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                                if (checkbox) {
+                                    checkbox.checked = checked || !shouldUncheck0And3;
+                                }
+                            }
+                        });
+                    });
                 }
+                
                 else if (method_sort === 3) {
-                    console.log("Checked Method Sorts:", checkedMethodSorts);
-                    // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
-                    let checkedMethodSortCount = 0;
+                    let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
+                    console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    let shouldUncheck0And3 = false; // Initialize a flag
+                
+                    // Check if any of the checkboxes for method_sort 3 are currently checked
+                    const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
-                            if (m.method_sort === 0 || m.method_sort === 2) {
+                            if (m.method_sort === 1 || m.method_sort === 5 || m.method_sort === 4) {
                                 const displayMethodId = m.method_id;
-                                if (checked || m.method_sort === 0) {
-                                    updatedSelectedMethods.add(displayMethodId);
-                                    checkedMethodSortCount++
-                                } else {
-                                    updatedSelectedMethods.delete(displayMethodId);
-                                }
-
-                                // You can also update the checkbox state here
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
-                                    checkbox.checked = checked;
+                                    methodSort3Checkboxes.push(checkbox);
+                                    if (checkbox.checked) {
+                                        shouldUncheck0And3 = true;
+                                    }
                                 }
                             }
                         });
                     });
-                    console.log("Total method_sort values: ", checkedMethodSortCount);
+                
+                    if (checked) {
+                        shouldUncheck0And3 = false;
+                    }
+                
+                    // Process the checkboxes for method_sort 0 and 2
+                    controllerWithMethodId.display_names.forEach((display) => {
+                        display.method_names.forEach((m) => {
+                            if (m.method_sort === 0 || m.method_sort === 2 ) {
+                                const displayMethodId = m.method_id;
+                                if (checked || shouldUncheck0And3) {
+                                    updatedSelectedMethods.add(displayMethodId);
+                                } else {
+                                    updatedSelectedMethods.delete(displayMethodId);
+                                }
+                
+                                // Update the checkbox state
+                                const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                                if (checkbox) {
+                                    checkbox.checked = checked || !shouldUncheck0And3;
+                                }
+                            }
+                        });
+                    });
                 }
                 else if (method_sort === 4) {
-                    console.log("Checked Method Sorts:", checkedMethodSorts);
-                    // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
+                    let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
+                    console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    let shouldUncheck0And3 = false; // Initialize a flag
+                
+                    // Check if any of the checkboxes for method_sort 3 are currently checked
+                    const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
-                            if (m.method_sort === 0 || m.method_sort === 1 || m.method_sort === 2 ) {
+                            if (m.method_sort === 3 || m.method_sort === 5) {
                                 const displayMethodId = m.method_id;
-                                if (checked || m.method_sort === 0) {
+                                const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                                if (checkbox) {
+                                    methodSort3Checkboxes.push(checkbox);
+                                    if (checkbox.checked) {
+                                        shouldUncheck0And3 = true;
+                                    }
+                                }
+                            }
+                        });
+                    });
+                
+                    if (checked) {
+                        shouldUncheck0And3 = false;
+                    }
+                
+                    // Process the checkboxes for method_sort 0 and 2
+                    controllerWithMethodId.display_names.forEach((display) => {
+                        display.method_names.forEach((m) => {
+                            if ( m.method_sort === 0 || m.method_sort === 1 || m.method_sort === 2 ) {
+                                const displayMethodId = m.method_id;
+                                if (checked || shouldUncheck0And3) {
                                     updatedSelectedMethods.add(displayMethodId);
                                 } else {
                                     updatedSelectedMethods.delete(displayMethodId);
                                 }
-
-                                // You can also update the checkbox state here
+                
+                                // Update the checkbox state
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
-                                    checkbox.checked = checked;
+                                    checkbox.checked = checked || !shouldUncheck0And3;
                                 }
                             }
                         });
                     });
                 }
                 else if (method_sort === 5) {
-                    console.log("Checked Method Sorts:", checkedMethodSorts);
-                    // Check or uncheck display_names in the same controller with method_sort 0, 2, and 4 when method_sort is 1
+                    let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
+                    console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    let shouldUncheck0And3 = false; // Initialize a flag
+                
+                    // Check if any of the checkboxes for method_sort 3 are currently checked
+                    const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
-                            if (m.method_sort === 0 || m.method_sort === 2) {
+                            if (m.method_sort === 1 || m.method_sort === 3 || m.method_sort === 4) {
                                 const displayMethodId = m.method_id;
-                                if (checked || m.method_sort === 0) {
+                                const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
+                                if (checkbox) {
+                                    methodSort3Checkboxes.push(checkbox);
+                                    if (checkbox.checked) {
+                                        shouldUncheck0And3 = true;
+                                    }
+                                }
+                            }
+                        });
+                    });
+                
+                    if (checked) {
+                        shouldUncheck0And3 = false;
+                    }
+                
+                    // Process the checkboxes for method_sort 0 and 2
+                    controllerWithMethodId.display_names.forEach((display) => {
+                        display.method_names.forEach((m) => {
+                            if (m.method_sort === 0 || m.method_sort === 2 ) {
+                                const displayMethodId = m.method_id;
+                                if (checked || shouldUncheck0And3) {
                                     updatedSelectedMethods.add(displayMethodId);
                                 } else {
                                     updatedSelectedMethods.delete(displayMethodId);
                                 }
-
-                                // You can also update the checkbox state here
+                
+                                // Update the checkbox state
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
-                                    checkbox.checked = checked;
+                                    checkbox.checked = checked || !shouldUncheck0And3;
                                 }
                             }
                         });
                     });
                 }
+                
             }
         }
     
