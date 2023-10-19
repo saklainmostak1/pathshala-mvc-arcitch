@@ -25,6 +25,7 @@ app.get('/user/role', usersModel.usersRole);
 app.get('/user-role/btn', usersModel.usersRoleBtn);
 app.get('/page-group/display-name', usersModel.getPageGroupAndDisplayName);
 app.post('/user/user-role-create', usersModel.userRoleCreate);
+app.get('/user/user-role-single/:id', usersModel.getUserRoleIdSingle);
 
 
 

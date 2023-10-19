@@ -422,6 +422,104 @@ const usersListModel = {
             }
           );
         });
+      },
+      userRoleUpdate: async (req, res) => {
+        const { user_role_id, role_name, status, user_page_list_id, user_default_page } = req.body;
+      
+        // Check if user_role_id, role_name, status, user_page_list_id, and user_default_page are provided and not null
+        if (!user_role_id || !role_name || !status || !user_page_list_id || !user_default_page) {
+          res.status(400).json({ message: 'user_role_id, role_name, status, user_page_list_id, and user_default_page are required and should not be null' });
+          return;
+        }
+      
+        // Start a database transaction
+        connection.beginTransaction((err) => {
+          if (err) {
+            console.error('Error starting database transaction: ' + err);
+            res.status(500).json({ message: 'Internal server error' });
+            return;
+          }
+      
+          // Update data in the 'user_role' table
+          connection.query(
+            'UPDATE user_role SET role_name = ?, status = ? WHERE id = ?',
+            [role_name, status, user_role_id],
+            (err, result) => {
+              if (err) {
+                // Rollback the transaction on error
+                connection.rollback(() => {
+                  console.error('Error updating user_role table: ' + err);
+                  res.status(500).json({ message: 'Internal server error' });
+                });
+                return;
+              }
+      
+              // Update data in the 'user_role_permission' table
+              connection.query(
+                'UPDATE user_role_permission SET user_page_list_id = ?, user_default_page = ? WHERE user_role_id = ?',
+                [user_page_list_id, user_default_page, user_role_id],
+                (err, permissionResult) => {
+                  if (err) {
+                    // Rollback the transaction on error
+                    connection.rollback(() => {
+                      console.error('Error updating user_role_permission table: ' + err);
+                      res.status(500).json({ message: 'Internal server error' });
+                    });
+                    return;
+                  }
+      
+                  // Commit the transaction when both updates are successful
+                  connection.commit((err) => {
+                    if (err) {
+                      console.error('Error committing the transaction: ' + err);
+                      res.status(500).json({ message: 'Internal server error' });
+                      return;
+                    }
+      
+                    res.status(200).json({
+                      user_role_id,
+                      role_name,
+                      status,
+                      user_page_list_id,
+                      user_default_page,
+                    });
+                  });
+                }
+              );
+            }
+          );
+        });
+      },
+      getUserRoleIdSingle: async (req, res) => {
+        const userRoleId = req.params.id;
+
+  // Retrieve user role data
+  connection.query('SELECT * FROM user_role WHERE id = ?', [userRoleId], (err, userRoleResult) => {
+    if (err) {
+      console.error('Error retrieving user role: ' + err);
+      res.status(500).json({ message: 'Internal server error' });
+      return;
+    }
+
+    if (userRoleResult.length === 0) {
+      res.status(404).json({ message: 'User role not found' });
+      return;
+    }
+
+    // Retrieve user role permission data
+    connection.query('SELECT * FROM user_role_permission WHERE user_role_id = ?', [userRoleId], (err, permissionResult) => {
+      if (err) {
+        console.error('Error retrieving user role permission: ' + err);
+        res.status(500).json({ message: 'Internal server error' });
+        return;
+      }
+
+      res.json({
+        user_role: userRoleResult[0], // Assuming there's only one user role with the given ID
+        user_role_permission: permissionResult,
+      });
+    });
+  });
       }
 }
 

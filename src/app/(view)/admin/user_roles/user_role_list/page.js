@@ -39,7 +39,10 @@ const UsersRoleList = () => {
     const filteredBtnIcon = btnIconUsers.filter(btn =>
         btn.method_sort === 3
     );
- 
+    const filteredBtnCreate = btnIconUsers.filter(btn =>
+        btn.method_sort === 1
+    );
+ console.log(filteredBtnCreate[0], 'create')
 
     return (
         <div className="col-md-12 bg-light body-content  p-4">
@@ -52,7 +55,7 @@ const UsersRoleList = () => {
                     className="card-header custom-card-header  py-1 clearfix  text-white ">
                     <h5 className="card-title card-header-color font-weight-bold mb-0  float-left mt-1">User Role List</h5>
                     <div className="card-title card-header-color font-weight-bold mb-0  float-right"> 
-                    <Link href="/Admin/user_role/user_role_create" className="btn btn-sm btn-info">Create User role</Link></div>
+                    <Link href={`/Admin/${filteredBtnCreate[0]?.controller_name}/${filteredBtnCreate[0]?.method_name}?page-group=${filteredBtnCreate[0]?.page_group}`} className="btn btn-sm btn-info">Create User role</Link></div>
                 </div>
                 <div className="card-body">
                     <div className="table-responsive">
