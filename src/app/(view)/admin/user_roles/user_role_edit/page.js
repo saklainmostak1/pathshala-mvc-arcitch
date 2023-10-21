@@ -20,7 +20,6 @@ const UserRoleEdit = ({ id }) => {
         }
     })
 
-
     const [userRole, setUserRole] = useState([])
     useEffect(() => {
         fetch(`http://192.168.0.110:5002/user/user-role-single/${id}`)
@@ -52,9 +51,6 @@ const UserRoleEdit = ({ id }) => {
 
 
     const [selectedMethods, setSelectedMethods] = useState([]);
-
-
-
 
     const handleCheckboxClick = (methodId, checked) => {
 
@@ -89,10 +85,6 @@ const UserRoleEdit = ({ id }) => {
                 });
             });
         }
-
-
-
-
 
         const display = usersRoleCreate
             .flatMap((roleCreate) => roleCreate.controllers)
@@ -389,25 +381,7 @@ const UserRoleEdit = ({ id }) => {
 
     };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const [doubleClickedDisplayName, setDoubleClickedDisplayName] = useState(0);
-
-
-
-
 
     const handleDoubleClick = (display) => {
 
@@ -460,48 +434,49 @@ const UserRoleEdit = ({ id }) => {
     };
 
 
-    const handleFormSubmit = () => {
-        // Get the role_name input value
-        const roleName = document.querySelector('input[name="role_name"]').value;
-
-
-        // Create an object to store the data you want to submit
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setUserRole((prevState) => ({
+          ...prevState,
+          user_role: {
+            ...prevState.user_role,
+            [name]: value,
+          },
+        }));
+      };
+      
+      const handleEditUserRole = (event) => {
+        event.preventDefault();
+        const userRoleId = userRole.user_role.id; // Get the user role ID
         const formData = {
-            user_default_page: document.querySelector('input[name="default_page"]').value,
-            role_name: roleName,
-            user_page_list_id: selectedMethods.toString(),
-            status: document.querySelector('input[name="status"]').value,
+          user_role_id: userRoleId,
+          role_name: userRole.user_role.role_name,
+          // Include other user role properties...
+          user_page_list_id: selectedMethods.toString(), // Convert to string
+          user_default_page: 
+          document.querySelector('input[name="default_page"]').value, // Example value, adjust as needed
+          status: document.querySelector('input[name="status"]').value, // Example value, adjust as needed
         };
-
-
-        console.log('Form Data:', formData);
-        // http://192.168.0.110:5002/user/user-role-create
-
-        fetch('http://192.168.0.110:5002/user/user-role-create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
+        console.log(formData)
+      
+        // Make a PUT request to update the user role
+        fetch(`http://192.168.0.110:5002/user/user-role/edit/${userRoleId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Server response:', data);
-
-            })
-            .catch(error => {
-                console.error('Error submitting the form:', error);
-
-            });
-
-        console.log('Selected Method IDs:', selectedMethods);
-    };
-
-
-
-
-
-
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            // Handle success or error based on the response data
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            // Handle error
+          });
+      };
 
     const [createAllChecked, setCreateAllChecked] = useState(false);
 
@@ -565,20 +540,11 @@ const UserRoleEdit = ({ id }) => {
         }
     };
 
-
-
     const filteredDisplayNamesViewAll = usersRoleCreate
         .flatMap((roleCreate) => roleCreate.controllers)
         .flatMap((controllers) => controllers.display_names)
         .flatMap((display) => display.method_names)
         .filter((method) => [0, 2].includes(method.method_sort));
-
-
-
-
-
-
-
 
     const [editAllChecked, setEditAllChecked] = useState(false);
     const handleEditAllChange = (isChecked) => {
@@ -609,15 +575,6 @@ const UserRoleEdit = ({ id }) => {
     console.log('Filtered Display Names edit all:', filteredDisplayNamesViewAll);
 
 
-
-
-
-
-
-
-
-
-
     const [copyAllChecked, setCopyAllChecked] = useState(false);
     const handleCopyAllChange = (isChecked) => {
         setCopyAllChecked(isChecked);
@@ -643,16 +600,6 @@ const UserRoleEdit = ({ id }) => {
         .filter((method) => [0, 1, 2, 4].includes(method.method_sort));
 
     console.log('Filtered Display Names copy all:', filteredDisplayNamesViewAll);
-
-
-
-
-
-
-
-
-
-
 
 
     const [deleteAllChecked, setDeleteAllChecked] = useState(false);
@@ -704,7 +651,11 @@ const UserRoleEdit = ({ id }) => {
         btn.method_sort === 2
     );
     console.log(filteredControllerName[0], 'btndhghg')
+
+
+
     return (
+
         <div class="col-md-12 bg-light body-content  p-4">
             <div class=" border-primary shadow-sm border-0">
                 <div
@@ -715,29 +666,33 @@ const UserRoleEdit = ({ id }) => {
                 </div>
                 <div class="alert alert-warning mb-0 mx-4 mt-4 text-danger font-weight-bold" role="alert">
                     (<small><sup><i class="text-danger fas fa-star"></i></sup></small>) field required
-                </div>			<div class="card-body">
+                </div>
+                <div class="card-body">
                     <form class=""
-                        onSubmit={handleFormSubmit}
+                        onSubmit={handleEditUserRole}
                         autocomplete="off">
                         <div class="form-group row">
                             <label class="col-form-label font-weight-bold col-md-2 font-weight-bold">Role Name:<small><sup><small><i class="text-danger fas fa-star"></i></small></sup></small></label>
                             <div class="col-md-6">
-                                <input type="text" name="role_name" class="form-control form-control-sm  required " placeholder="Enter Role Name"
+                                <input type="text"
+                                    onChange={handleChange}
+                                    name="role_name" class="form-control form-control-sm  required " placeholder="Enter Role Name"
                                     defaultValue={userRole?.user_role?.role_name}
                                 />
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-form-label font-weight-bold col-md-2 font-weight-bold ">Page List:<small><sup><small><i class="text-danger fas fa-star"></i></small></sup></small></label><br />
-                            <div class="col-md-10">
-                                <div class="w-100 mb-2">
-                                    {/* <div class="form-check form-check-inline w-15">
-                                        <input class="form-check-input check_all head" type="checkbox" />
-                                        <label class="form-check-label font-weight-bold" for="inlineCheckbox1">Select All</label>
-                                    </div> */}
+                            <label class="col-form-label font-weight-bold col-md-2 font-weight-bold ">Page List:<small><sup><small><i class="text-danger fas fa-star"></i></small></sup></small></label>
+                            <br />
+                            <div class="col-md-10 "
 
-                                    <div className='mt-2'>
-                                        <div className="form-check form-check-inline w-15">
+
+                            >
+                                <div class=" mb-2" >
+
+
+                                    <div className='mt-2' >
+                                        <div style={{ width: '15%', fontSize: '15px' }} className="form-check form-check-inline w-15">
                                             <input
                                                 className="form-check-input check_all head"
                                                 type="checkbox"
@@ -749,7 +704,8 @@ const UserRoleEdit = ({ id }) => {
                                             </label>
                                         </div>
 
-                                        <div class="form-check form-check-inline w-15">
+                                        <div
+                                            style={{ width: '15%', fontSize: '15px' }} class="form-check form-check-inline w-15">
                                             <input class="form-check-input create_method_all head" type="checkbox"
                                                 checked={createAllChecked}
                                                 onChange={(e) => handleCreateAllChange(e.target.checked)}
@@ -759,14 +715,16 @@ const UserRoleEdit = ({ id }) => {
 
                                             <label class="form-check-label font-weight-bold" for="inlineCheckbox1">Create All <span class="badge badge-info" data-toggle="popover" title="" data-content="Double click to any 'create page text' for activating 'Default Dashboard' after Login." data-original-title="Default Page"><i class="fas fa-info-circle"></i></span></label>
                                         </div>
-                                        <div class="form-check form-check-inline w-15">
+                                        <div
+                                            style={{ width: '15%', fontSize: '15px' }} class="form-check form-check-inline w-15">
                                             <input class="form-check-input list_method_all head" type="checkbox"
                                                 checked={viewAllChecked}
                                                 onChange={(e) => handleViewAllChange(e.target.checked)}
                                             />
                                             <label class="form-check-label font-weight-bold" for="inlineCheckbox1">View All <span class="badge badge-info" data-toggle="popover" title="" data-content="Double click to any 'view/list page text' for activating 'Default Dashboard' after Login." data-original-title="Default Page"><i class="fas fa-info-circle"></i></span></label>
                                         </div>
-                                        <div class="form-check form-check-inline w-15">
+                                        <div
+                                            style={{ width: '15%', fontSize: '15px' }} class="form-check form-check-inline w-15">
                                             <input class="form-check-input edit_method_all head" type="checkbox"
 
                                                 checked={editAllChecked}
@@ -774,7 +732,8 @@ const UserRoleEdit = ({ id }) => {
                                             />
                                             <label class="form-check-label font-weight-bold" for="inlineCheckbox1">Edit All</label>
                                         </div>
-                                        <div class="form-check form-check-inline w-15">
+                                        <div
+                                            style={{ width: '15%', fontSize: '15px' }} class="form-check form-check-inline w-15">
                                             <input class="form-check-input copy_method_all head" type="checkbox"
                                                 checked={copyAllChecked}
                                                 onChange={(e) => handleCopyAllChange(e.target.checked)}
@@ -782,7 +741,8 @@ const UserRoleEdit = ({ id }) => {
                                             />
                                             <label class="form-check-label font-weight-bold" for="inlineCheckbox1">Copy All</label>
                                         </div>
-                                        <div class="form-check form-check-inline w-15">
+                                        <div
+                                            style={{ width: '15%', fontSize: '15px' }} class="form-check form-check-inline w-15">
                                             <input class="form-check-input delete_method_all head"
                                                 checked={deleteAllChecked}
                                                 onChange={(e) => handleDeleteAllChange(e.target.checked)}
@@ -796,109 +756,95 @@ const UserRoleEdit = ({ id }) => {
 
 
 
-                                {loading ?
+                                <div className=''>
+                                    {loading ?
 
 
-                                    <div class=" d-flex justify-content-center">
-                                        <div class="spinner-border" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                        </div>
-                                    </div>
-                                    :
-                                    usersRoleCreate.map((roleCreate =>
-                                        <div key={roleCreate.id}>
-
-                                            <div
-                                                style={{ backgroundColor: '#4267b2' }}
-                                                class="card-header custom-card-header  py-1  clearfix bg-gradient-primary text-white mt-3">
-                                                <h5 class="card-title card-header-color font-weight-bold mb-0  float-left ">
-                                                    <strong>
-                                                        {formatString(roleCreate.page_group)}
-                                                    </strong>
-                                                </h5>
-
+                                        <div class=" d-flex justify-content-center">
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
                                             </div>
-                                            {
-                                                roleCreate.controllers.map((controllers =>
-                                                    <div key={controllers.id} className='border-bottom'>
+                                        </div>
+                                        :
+                                        usersRoleCreate.map((roleCreate =>
+                                            <div key={roleCreate.id}>
 
-                                                        {/* <input
-                                                                            className="form-check-input"
-                                                                            type="checkbox"
+                                                <div
+                                                    style={{ backgroundColor: '#4267b2' }}
+                                                    class="card-header custom-card-header  py-1  clearfix bg-gradient-primary text-white mt-3">
+                                                    <h5 class="card-title card-header-color font-weight-bold mb-0  float-left ">
+                                                        <strong>
+                                                            {formatString(roleCreate.page_group)}
+                                                        </strong>
+                                                    </h5>
 
-                                                                            value={display.method_names.map(method => method.method_id)}
-                                                                            onClick={() => handleCheckboxClick(display.method_names.map(method => method.method_id))}
-                                                                        /> */}
-                                                        {/* <input
-                                className="form-check-input"
-                                type="checkbox"
-                                checked={selectedMethods[display.display_name] ? true : false}
-                                onChange={(e) => handleCheckboxClick(display.method_names[0].method_id, display.display_name, e.target.checked)}
-                            /> */}
-                                                        {/* <input
-        className="form-check-input"
-        type="checkbox"
-        checked={display.method_names.every((method) => selectedMethods.includes(method.method_name))}
-        onChange={(e) => {
-            const isChecked = e.target.checked;
-            handleCheckboxClick(
-                display.method_names.map((method) => method.method_name),
-                isChecked
-            );
-        }}
-    /> */}
-                                                        <div>
+                                                </div>
+                                                {
+                                                    roleCreate.controllers.map((controllers =>
+                                                        <div key={controllers.id} className='border-bottom'>
 
-                                                            {
-                                                                controllers.display_names.map((display =>
+
+                                                            <div>
+
+                                                                {
+                                                                    controllers.display_names.map((display =>
 
 
 
 
-                                                                    <div key={display.id} className="form-check form-check-inline w-15 py-2 "
+                                                                        <div key={display.id}
+                                                                            className="form-check form-check-inline  py-2 "
+                                                                            id='methodss'
 
-                                                                        style={{ fontWeight: '500', fontSize: '13px' }}                                                              >
+                                                                            style={{ width: '15%', fontWeight: '650', fontSize: '12px' }}                                                          >
+
+
+                                                                            {
+                                                                                display.display_name === '' &&
+                                                                                <p><br /></p>
+                                                                            }
+                                                                            {
+
+                                                                                display.display_name !== '' &&
+                                                                                <>
+                                                                                    <input
+                                                                                        name='check_box' id={`yourCheckboxId_${display.method_names[0].method_id}`} // Add this ID attribute
+                                                                                        className="form-check-input"
+                                                                                        type="checkbox"
+                                                                                        checked={selectedMethods.includes(display.method_names[0].method_id)}
+                                                                                        onChange={(e) => handleCheckboxClick(display.method_names[0].method_id, e.target.checked)}
+                                                                                    />
+
+                                                                                    <label
+                                                                                        style={{ marginTop: '7px' }}
+                                                                                        className={` ${doubleClickedDisplayName === display.display_name ? 'bg-danger text-white rounded px-2 ' : 'text-black'} `}
+                                                                                        onDoubleClick={() => handleDoubleClick(display)}
+                                                                                    >
+                                                                                        {display.display_name}
+                                                                                    </label>
+                                                                                </>
+                                                                            }
 
 
 
-                                                                        <input
-                                                                            name='check_box' id={`yourCheckboxId_${display.method_names[0].method_id}`} // Add this ID attribute
-                                                                            className="form-check-input"
-                                                                            type="checkbox"
-                                                                            checked={selectedMethods.includes(display.method_names[0].method_id)}
-                                                                            onChange={(e) => handleCheckboxClick(display.method_names[0].method_id, e.target.checked)}
-                                                                        />
+                                                                        </div>
 
-                                                                        <label
-                                                                            style={{ marginTop: '7px' }}
-                                                                            className={` ${doubleClickedDisplayName === display.display_name ? 'bg-danger text-white rounded px-2 ' : 'text-black'} `}
-                                                                            onDoubleClick={() => handleDoubleClick(display)}
-                                                                        >
-                                                                            {display.display_name}
-                                                                        </label>
-                                                                    </div>
+                                                                    ))
+                                                                }
+                                                            </div>
 
-                                                                ))
-                                                            }
                                                         </div>
 
-                                                    </div>
+                                                    ))
+                                                }
 
-                                                ))
-                                            }
+                                                <hr />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
 
-                                            <hr />
-                                        </div>
-                                    ))
-                                }
 
-                                {/* <input
-                                                                            name='check_box' id={`yourCheckboxId_${display.method_names[0].method_id}`} // Add this ID attribute
-                                                                            className="form-check-input"
-                                                                            type="checkbox"
-                                                                            checked={selectedMethods.includes(display.method_names[0].method_id)}
-                                                                            onChange={(e) => handleCheckboxClick(display.method_names[0].method_id, e.target.checked)}
-                                                                        /> */}
 
                             </div>
                         </div>
@@ -908,7 +854,7 @@ const UserRoleEdit = ({ id }) => {
                         <div class="form-group row">
                             <div class="col-sm-6">
                                 <input
-                                    onClick={handleFormSubmit}
+                                    onClick={handleEditUserRole}
 
                                     type="button" disabled="" class="btn btn-sm btn-success submit" value="Submit" />
                             </div>

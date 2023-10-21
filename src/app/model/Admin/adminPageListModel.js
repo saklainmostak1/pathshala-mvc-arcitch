@@ -1050,7 +1050,139 @@ const AdminPageListModel = {
 
   getPageGroupAndDisplayNameWithId: async (req, res) => {
  
+//     const query = `
+//     SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name, ap.parent_id, ap.menu_type, ap.method_sort
+//     FROM admin_page_list ap
+//     GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
+//     HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
+// `;
 
+// connection.query(query, (error, results) => {
+//     if (error) {
+//         console.error('Error executing MySQL query:', error);
+//         res.status(500).json({ message: 'Internal server error' });
+//         return;
+//     }
+
+//     // Process the data to group by page_group and create an object
+//     const groupedData = results.reduce((acc, row) => {
+//         const { page_group_id, page_group, controller_name, display_name, method_id, method_name, parent_id, menu_type, method_sort } = row;
+//         const pageGroupLowerCase = page_group.toLowerCase(); // Convert to lowercase
+
+//         if (!acc[pageGroupLowerCase]) {
+//             acc[pageGroupLowerCase] = {
+//                 page_group_id,
+//                 page_group: pageGroupLowerCase, // Store in lowercase
+//                 controllers: [],
+//             };
+//         }
+
+//         const controller = acc[pageGroupLowerCase].controllers.find((c) => c.controller_name.toLowerCase() === controller_name.toLowerCase()); // Compare in lowercase
+
+//         if (controller) {
+//             const display = controller.display_names.find((display) => display.display_name.toLowerCase() === display_name.toLowerCase()); // Compare in lowercase
+//             if (display) {
+//                 const method = display.method_names.find((method) => method.method_id === method_id);
+//                 if (method) {
+//                     // If method already exists, just add parent_id, menu_type, and method_sort
+//                     method.parent_id = parent_id;
+//                     method.menu_type = menu_type;
+//                     method.method_sort = method_sort;
+//                 } else {
+//                     display.method_names.push({ method_id, method_name, parent_id, menu_type, method_sort });
+//                 }
+//             } else {
+//                 controller.display_names.push({ display_name, method_names: [{ method_id, method_name, parent_id, menu_type, method_sort }] });
+//             }
+//         } else {
+//             acc[pageGroupLowerCase].controllers.push({
+//                 controller_name,
+//                 display_names: [{ display_name, method_names: [{ method_id, method_name, parent_id, menu_type, method_sort }] }],
+//             });
+//         }
+
+//         return acc;
+//     }, {});
+
+//     const responseData = Object.values(groupedData);
+
+//     if (responseData.length > 0) {
+//         res.json(responseData);
+//     } else {
+//         res.status(404).json({ message: 'Data not found' });
+//     }
+// });
+
+
+// const query = `
+//     SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name, ap.parent_id, ap.menu_type, ap.method_sort
+//     FROM admin_page_list ap
+//     GROUP BY ap.page_group, ap.controller_name, ap.display_name, ap.id
+//     HAVING ap.page_group IS NOT NULL AND ap.page_group != '';
+// `;
+
+// connection.query(query, (error, results) => {
+//     if (error) {
+//         console.error('Error executing MySQL query:', error);
+//         res.status(500).json({ message: 'Internal server error' });
+//         return;
+//     }
+
+//     // Process the data to group by page_group and create an object
+//     const groupedData = results.reduce((acc, row) => {
+//         const { page_group_id, page_group, controller_name, display_name, method_id, method_name, parent_id, menu_type, method_sort } = row;
+//         const pageGroupLowerCase = page_group.toLowerCase(); // Convert to lowercase
+
+//         if (!acc[pageGroupLowerCase]) {
+//             acc[pageGroupLowerCase] = {
+//                 page_group_id,
+//                 page_group: pageGroupLowerCase, // Store in lowercase
+//                 controllers: [],
+//             };
+//         }
+
+//         const controller = acc[pageGroupLowerCase].controllers.find((c) => c.controller_name.toLowerCase() === controller_name.toLowerCase()); // Compare in lowercase
+
+//         if (controller) {
+//             const display = controller.display_names.find((display) => display.display_name.toLowerCase() === display_name.toLowerCase()); // Compare in lowercase
+//             if (display) {
+//                 const method = display.method_names.find((method) => method.method_id === method_id);
+//                 if (method) {
+//                     // If method already exists, just add parent_id, menu_type, and method_sort
+//                     method.parent_id = parent_id;
+//                     method.menu_type = menu_type;
+//                     method.method_sort = method_sort;
+//                 } else {
+//                     display.method_names.push({ method_id, method_name, parent_id, menu_type, method_sort });
+//                 }
+//             } else {
+//                 controller.display_names.push({ display_name, method_names: [{ method_id, method_name, parent_id, menu_type, method_sort }] });
+//             }
+//         } else {
+//             acc[pageGroupLowerCase].controllers.push({
+//                 controller_name,
+//                 display_names: [{ display_name, method_names: [{ method_id, method_name, parent_id, menu_type, method_sort }] }],
+//             });
+//         }
+
+//         return acc;
+//     }, {});
+
+//     // Sort display_names based on method_sort in descending order
+//     Object.values(groupedData).forEach((group) => {
+//       group.controllers.forEach((controller) => {
+//           controller.display_names.sort((a, b) => a.method_names[0].method_sort - b.method_names[0].method_sort);
+//       });
+//   });
+
+//     const responseData = Object.values(groupedData);
+
+//     if (responseData.length > 0) {
+//         res.json(responseData);
+//     } else {
+//         res.status(404).json({ message: 'Data not found' });
+//     }
+// });
 const query = `
     SELECT ap.id AS page_group_id, ap.page_group, ap.controller_name, ap.display_name, ap.id AS method_id, ap.method_name, ap.parent_id, ap.menu_type, ap.method_sort
     FROM admin_page_list ap
@@ -1105,6 +1237,25 @@ connection.query(query, (error, results) => {
         return acc;
     }, {});
 
+    // Add "blank" controller_name for missing method_sort values
+    Object.values(groupedData).forEach((group) => {
+        group.controllers.forEach((controller) => {
+            const methodSorts = controller.display_names.map((display) => display.method_names[0].method_sort);
+            for (let i = 0; i <= 5; i++) {
+                if (!methodSorts.includes(i)) {
+                    controller.display_names.push({ display_name: '', method_names: [{ method_id: '', method_name: '', parent_id: '', menu_type: '', method_sort: i }] });
+                }
+            }
+        });
+    });
+
+    // Sort display_names based on method_sort in ascending order (lower number to higher number)
+    Object.values(groupedData).forEach((group) => {
+        group.controllers.forEach((controller) => {
+            controller.display_names.sort((a, b) => a.method_names[0].method_sort - b.method_names[0].method_sort);
+        });
+    });
+
     const responseData = Object.values(groupedData);
 
     if (responseData.length > 0) {
@@ -1113,6 +1264,7 @@ connection.query(query, (error, results) => {
         res.status(404).json({ message: 'Data not found' });
     }
 });
+
       },
 
     
