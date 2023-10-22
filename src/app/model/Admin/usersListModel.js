@@ -263,29 +263,49 @@ const usersListModel = {
     }
   },
 
+
+
+
   usersRole: async (req, res) => {
-    try {
-      const data = "select * from user_role";
-
-      connection.query(data, function (error, result) {
-        console.log(result, 'Saklain Mostak nayan')
-        if (!error) {
-
-
-          res.status(200).send(result)
-
+   connection.query('SELECT * FROM user_role', (err, userRoleResult) => {
+        if (err) {
+            console.error('Error retrieving users: ' + err);
+            res.status(500).json({ message: 'Internal server error' });
+            return;
         }
 
-        else {
-          console.log(error, 'nayan')
-        }
+        // Organize the results into an array of users with their permissions
+        const users = [];
 
-      })
-    }
-    catch (error) {
-      console.log(error)
-    }
+        userRoleResult.forEach((userRole) => {
+            const userRoleId = userRole.id;
+            const user = { ...userRole };
+            user.user_role_permission = [];
+
+            // Retrieve user role permission data
+            connection.query('SELECT * FROM user_role_permission WHERE user_role_id = ?', [userRoleId], (err, permissionResult) => {
+                if (err) {
+                    console.error('Error retrieving user role permission: ' + err);
+                    res.status(500).json({ message: 'Internal server error' });
+                    return;
+                }
+
+                user.user_role_permission = permissionResult;
+                users.push(user);
+
+                // Check if this is the last user role entry to respond to the client
+                if (users.length === userRoleResult.length) {
+                    res.json({ users });
+                }
+            });
+        });
+    });
   },
+
+
+
+
+
   usersRoleBtn: async (req, res) => {
     try {
       const controllerName = 'user_role';
@@ -535,6 +555,125 @@ const usersListModel = {
         res.json({ user_role });
       });
     });
+  },
+
+  deleteUserRoleIdSingle: async (req, res) => {
+    // try {
+    //   const query = 'DELETE FROM user_role WHERE id = ?';
+    //   connection.query(query, [req.params.id], (error, result) => {
+    //     if (!error && result.affectedRows > 0) {
+    //       console.log(result);
+    //       return res.send(result);
+    //     } else {
+    //       console.log(error || 'User role not found');
+    //       return res.status(404).json({ message: 'User role not found.' });
+    //     }
+    //   });
+    // } catch (error) {
+    //   console.error(error);
+    //   res.status(500).json({ message: 'Internal server error' });
+    // }
+    
+    // Transaction to delete user_role with related permissions
+    const userRoleId = req.params.id;
+    
+    connection.beginTransaction((err) => {
+      if (err) {
+        console.error('Error starting transaction: ' + err);
+        res.status(500).json({ message: 'Internal server error' });
+        return;
+      }
+    
+      connection.query('DELETE FROM user_role WHERE id = ?', [userRoleId], (err, result) => {
+        if (err) {
+          console.error('Error deleting user role: ' + err);
+          connection.rollback(() => {
+            res.status(500).json({ message: 'Internal server error' });
+          });
+          return;
+        }
+        connection.query('DELETE FROM user_role_permission WHERE user_role_id = ?', [userRoleId], (err, permissionResult) => {
+          if (err) {
+            console.error('Error deleting user role permissions: ' + err);
+            connection.rollback(() => {
+              res.status(500).json({ message: 'Internal server error' });
+            });
+            return;
+          }
+    
+          connection.commit((err) => {
+            if (err) {
+              console.error('Error committing transaction: ' + err);
+              connection.rollback(() => {
+                res.status(500).json({ message: 'Internal server error' });
+              });
+              return;
+            }
+            if (!err && result.affectedRows > 0) {
+            
+              res.json({ message: 'User role and related permissions deleted successfully' });
+                  } 
+          });
+        });
+      });
+    });
+   
+    // try {
+    //   const query = 'DELETE FROM user_role WHERE id = ?';
+    //   connection.query(query, [req.params.id], (error, result) => {
+    //     if (!error && result.affectedRows > 0) {
+    //       console.log(result);
+    //       return res.send(result);
+    //     } else {
+    //       console.log(error || 'Product not found');
+    //       return res.status(404).json({ message: 'Product not found.' });
+    //     }
+    //   });
+    // }
+    // catch (error) {
+    //   console.log(error)
+    // }
+    // const userRoleId = req.params.id;
+    
+    // connection.beginTransaction((err) => {
+    //   if (err) {
+    //     console.error('Error starting transaction: ' + err);
+    //     res.status(500).json({ message: 'Internal server error' });
+    //     return;
+    //   }
+  
+    
+    //     connection.query('DELETE FROM user_role WHERE id = ?', [userRoleId], (err, result) => {
+    //       if (err) {
+    //         console.error('Error deleting user role: ' + err);
+    //         connection.rollback(() => {
+    //           res.status(500).json({ message: 'Internal server error' });
+    //         });
+    //         return;
+    //       }
+    //       connection.query('DELETE FROM user_role_permission WHERE user_role_id = ?', [userRoleId], (err, permissionResult) => {
+    //         if (err) {
+    //           console.error('Error deleting user role permissions: ' + err);
+    //           connection.rollback(() => {
+    //             res.status(500).json({ message: 'Internal server error' });
+    //           });
+    //           return;
+    //         }
+      
+    //       connection.commit((err) => {
+    //         if (err) {
+    //           console.error('Error committing transaction: ' + err);
+    //           connection.rollback(() => {
+    //             res.status(500).json({ message: 'Internal server error' });
+    //           });
+    //           return;
+    //         }
+  
+    //         res.json({ message: 'User role and related permissions deleted successfully' });
+    //       });
+    //     });
+    //   });
+    // });
   }
 
 

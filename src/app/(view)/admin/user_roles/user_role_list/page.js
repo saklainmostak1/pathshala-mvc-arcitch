@@ -5,6 +5,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import '../../../admin_layout/modal/fa.css'
+import Swal from 'sweetalert2';
 
 const UsersRoleList = () => {
 
@@ -44,6 +45,37 @@ const UsersRoleList = () => {
     );
  console.log(filteredBtnCreate[0], 'create')
 
+// console.log(usersRole?.users[0]?.id)
+
+ const handleDelete = (id) => {
+console.log(id)
+  
+    const proceed = window.confirm('Are You Sure delete')
+    if (proceed) {
+        fetch(`http://192.168.0.110:5002/user/user-role/delete/${id}`, {
+            method: "DELETE",
+
+        })
+            .then(Response => Response.json())
+            .then(data => {
+                console.log(data)
+
+                refetch()
+                if (data.affectedRows > 0) {
+                    Swal.fire({
+                        title: 'delete!',
+                        text: 'user delete Successful !!',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
+                }
+            })
+    }
+}
+
+
+
+
     return (
         <div className="col-md-12 bg-light body-content  p-4">
 
@@ -65,7 +97,7 @@ const UsersRoleList = () => {
                                 <th>Action</th>
                             </tr>
                                 {
-                                    usersRole?.map(userRle =>
+                                    usersRole?.users?.map(userRle =>
 
 
                                         <tr key={userRle.id}>
@@ -98,7 +130,7 @@ const UsersRoleList = () => {
                                                         <button
                                                             key={filteredBtnIconDelete.id}
                                                             title='Delete'
-                                                            onClick={() => handleDelete(allUser.id)}
+                                                            onClick={() => handleDelete(userRle.id)}
                                                             style={{ width: "35px ", height: '30px', marginLeft: '5px', marginTop: '5px' }}
                                                             className={filteredBtnIconDelete?.btn}
                                                         >

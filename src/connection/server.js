@@ -27,6 +27,7 @@ app.get('/page-group/display-name', usersModel.getPageGroupAndDisplayName);
 app.post('/user/user-role-create', usersModel.userRoleCreate);
 app.get('/user/user-role-single/:id', usersModel.getUserRoleIdSingle);
 app.put('/user/user-role/edit/:id', usersModel.userRoleUpdate);
+app.delete('/user/user-role/delete/:id', usersModel.deleteUserRoleIdSingle);
 
 
 
