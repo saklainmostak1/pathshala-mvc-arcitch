@@ -631,13 +631,13 @@ const UsersRoleCreates = () => {
         const updatedSelectedMethods = new Set(selectedMethods);
         const checkedMethodSorts = []; // Array to store checked method_sort values
 
-        // if (checked) {
-        //     updatedSelectedMethods.add(methodId);
-        // }
+        if (checked) {
+            updatedSelectedMethods.add(methodId);
+        }
         
-        // else {
-        //     updatedSelectedMethods.delete(methodId);
-        // }
+        else if(!checked) {
+            updatedSelectedMethods.delete(methodId);
+        }
 
         const controller = usersRoleCreate
             .flatMap((roleCreate) => roleCreate.controllers)
@@ -1041,7 +1041,7 @@ const UsersRoleCreates = () => {
                     const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
-                            if (m.method_sort === 1 || m.method_sort === 3 || m.method_sort === 5 || m.method_sort === 4 || m.method_sort === 6 || m.method_sort === 7 || m.method_sort === 8 || m.method_sort === 9 || m.method_sort === 10) {
+                            if (m.method_sort === 1 || m.method_sort === 3 || m.method_sort === 5 || m.method_sort === 4 || m.method_sort > 5) {
                                 const displayMethodId = m.method_id;
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
@@ -1087,7 +1087,7 @@ const UsersRoleCreates = () => {
                     const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
-                            if (m.method_sort === 1 || m.method_sort === 5 || m.method_sort === 4  || m.method_sort === 6 || m.method_sort === 7 || m.method_sort === 8 || m.method_sort === 9 || m.method_sort === 10) {
+                            if (m.method_sort === 1 || m.method_sort === 5 || m.method_sort === 4  || m.method_sort > 5) {
                                 const displayMethodId = m.method_id;
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
@@ -1133,7 +1133,7 @@ const UsersRoleCreates = () => {
                     const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
-                            if (m.method_sort === 3 || m.method_sort === 5 || m.method_sort === 6  || m.method_sort === 6 || m.method_sort === 7 || m.method_sort === 8 || m.method_sort === 9 || m.method_sort === 10) {
+                            if (m.method_sort === 3 || m.method_sort === 5 || m.method_sort > 5) {
                                 const displayMethodId = m.method_id;
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
@@ -1179,7 +1179,7 @@ const UsersRoleCreates = () => {
                     const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
-                            if (m.method_sort === 1 || m.method_sort === 3 || m.method_sort === 4 || m.method_sort === 6 || m.method_sort === 7 || m.method_sort === 8 || m.method_sort === 9 || m.method_sort === 10) {
+                            if (m.method_sort === 1 || m.method_sort === 3 || m.method_sort === 4 || m.method_sort > 5) {
                                 const displayMethodId = m.method_id;
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
@@ -1225,7 +1225,7 @@ const UsersRoleCreates = () => {
                     const methodSort3Checkboxes = []; // Store the checkboxes for method_sort 3
                     controllerWithMethodId.display_names.forEach((display) => {
                         display.method_names.forEach((m) => {
-                            if (m.method_sort === 1 || m.method_sort === 2  || m.method_sort === 3 || m.method_sort === 4 || m.method_sort === 5 || m.method_sort === 7 || m.method_sort === 8 || m.method_sort === 9 || m.method_sort === 10) {
+                            if (m.method_sort === 1 || m.method_sort === 2  || m.method_sort === 3 || m.method_sort === 4 || m.method_sort === 5 || m.method_sort > 5) {
                                 const displayMethodId = m.method_id;
                                 const checkbox = document.getElementById(`yourCheckboxId_${displayMethodId}`);
                                 if (checkbox) {
@@ -1517,35 +1517,66 @@ const UsersRoleCreates = () => {
 
 
 
+    // const handleCreateAllChange = (isChecked) => {
+        //     setCreateAllChecked(isChecked);
+
+    //     if (isChecked) {
+    //         // If "Create All" is checked, get the method IDs to check
+    //         const methodIdsToCheck = filteredDisplayNames.map((method) => method.method_id);
+
+    //         // Check the method IDs for "Create All"
+    //         setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
+    //     } 
+    //     else {
+    //         // If "Create All" is unchecked, clear selected checkboxes for "Create All" methods
+    //         setSelectedMethods((prevSelectedMethods) => {
+    //             // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+    //             return prevSelectedMethods.filter((methodId) => {
+    //                 const method = filteredDisplayNames.find((item) => item.method_id === methodId);
+    //                 // return !method ;
+    
+    //                  return   !method || method.method_sort === 0
+    
+    
+    
+    //             });
+    //         });
+    //     }
+    // };
+
+
     const [createAllChecked, setCreateAllChecked] = useState(false);
 
 
     const handleCreateAllChange = (isChecked) => {
         setCreateAllChecked(isChecked);
-
+      
         if (isChecked) {
-            // If "Create All" is checked, get the method IDs to check
-            const methodIdsToCheck = filteredDisplayNames.map((method) => method.method_id);
-
-            // Check the method IDs for "Create All"
-            setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
-        } 
-        else {
-            // If "Create All" is unchecked, clear selected checkboxes for "Create All" methods
-            setSelectedMethods((prevSelectedMethods) => {
-                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
-                return prevSelectedMethods.filter((methodId) => {
-                    const method = filteredDisplayNames.find((item) => item.method_id === methodId);
-                    // return !method ;
-        
-                     return   !method || method.method_sort === 0
-                   
-                    
-                    
-                });
+          // If "Create All" is checked, get the method IDs to check
+          const methodIdsToCheck = filteredDisplayNames.map((method) => method.method_id);
+      
+          // Check the method IDs for "Create All"
+          setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
+        } else {
+          // If "Create All" is unchecked, clear selected checkboxes for "Create All" methods
+          setSelectedMethods((prevSelectedMethods) => {
+            // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+            return prevSelectedMethods.filter((methodId) => {
+              const method = filteredDisplayNames.find((item) => item.method_id === methodId);
+              let keepMethod = !method ;
+      
+              // If "Edit All" is also checked, don't uncheck methods with method_sort === 3
+              if ((editAllChecked || deleteAllChecked || copyAllChecked || viewAllChecked ) && method && (method.method_sort === 0 || method.method_sort === 2 ) ) {
+                keepMethod = true;
+              }
+      
+              return keepMethod;
             });
+          });
         }
-    };
+      };
+
+   
     const filteredDisplayNames = usersRoleCreate
         .flatMap((roleCreate) => roleCreate.controllers)
         .flatMap((controllers) => controllers.display_names)
@@ -1568,20 +1599,28 @@ const UsersRoleCreates = () => {
         setViewAllChecked(isChecked);
 
         if (isChecked) {
-            // If "View All" is checked, get the method IDs to check
+            // If "Create All" is checked, get the method IDs to check
             const methodIdsToCheck = filteredDisplayNamesViewAll.map((method) => method.method_id);
-
-            // Check the method IDs for "View All"
+        
+            // Check the method IDs for "Create All"
             setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
-        } else {
+          } else {
+            // If "Create All" is unchecked, clear selected checkboxes for "Create All" methods
             setSelectedMethods((prevSelectedMethods) => {
-                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
-                return prevSelectedMethods.filter((methodId) => {
-                    const method = filteredDisplayNamesViewAll.find((item) => item.method_id === methodId);
-                    return !method || method.method_sort === 0;
-                });
+              // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+              return prevSelectedMethods.filter((methodId) => {
+                const method = filteredDisplayNamesViewAll.find((item) => item.method_id === methodId);
+                let keepMethod = !method ;
+        
+                // If "Edit All" is also checked, don't uncheck methods with method_sort === 3
+                if ((editAllChecked || deleteAllChecked || copyAllChecked || createAllChecked ) && method && (method.method_sort === 0 ) ) {
+                  keepMethod = true;
+                }
+        
+                return keepMethod;
+              });
             });
-        }
+          }
     };
 
 
@@ -1604,20 +1643,28 @@ const UsersRoleCreates = () => {
         setEditAllChecked(isChecked);
 
         if (isChecked) {
-            // If "Create All" is checked, check all checkboxes for the filtered display names
+            // If "Create All" is checked, get the method IDs to check
             const methodIdsToCheck = filteredDisplayNamesEditAll.map((method) => method.method_id);
-
+        
+            // Check the method IDs for "Create All"
             setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
-        } else {
-
+          } else {
+            // If "Create All" is unchecked, clear selected checkboxes for "Create All" methods
             setSelectedMethods((prevSelectedMethods) => {
-                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
-                return prevSelectedMethods.filter((methodId) => {
-                    const method = filteredDisplayNamesEditAll.find((item) => item.method_id === methodId);
-                    return !method || method.method_sort === 0;
-                });
+              // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+              return prevSelectedMethods.filter((methodId) => {
+                const method = filteredDisplayNamesEditAll.find((item) => item.method_id === methodId);
+                let keepMethod = !method ;
+        
+                // If "Edit All" is also checked, don't uncheck methods with method_sort === 3
+                if ((viewAllChecked || deleteAllChecked || copyAllChecked || createAllChecked ) && method && (method.method_sort === 0 || method.method_sort === 2 ) ) {
+                  keepMethod = true;
+                }
+        
+                return keepMethod;
+              });
             });
-        }
+          }
     };
     const filteredDisplayNamesEditAll = usersRoleCreate
         .flatMap((roleCreate) => roleCreate.controllers)
@@ -1642,18 +1689,28 @@ const UsersRoleCreates = () => {
         setCopyAllChecked(isChecked);
 
         if (isChecked) {
-            // If "Create All" is checked, check all checkboxes for the filtered display names
+            // If "Create All" is checked, get the method IDs to check
             const methodIdsToCheck = filteredDisplayNamesCopyAll.map((method) => method.method_id);
+        
+            // Check the method IDs for "Create All"
             setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
-        } else {
+          } else {
+            // If "Create All" is unchecked, clear selected checkboxes for "Create All" methods
             setSelectedMethods((prevSelectedMethods) => {
-                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
-                return prevSelectedMethods.filter((methodId) => {
-                    const method = filteredDisplayNamesCopyAll.find((item) => item.method_id === methodId);
-                    return !method || method.method_sort === 0;
-                });
+              // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+              return prevSelectedMethods.filter((methodId) => {
+                const method = filteredDisplayNamesCopyAll.find((item) => item.method_id === methodId);
+                let keepMethod = !method ;
+        
+                // If "Edit All" is also checked, don't uncheck methods with method_sort === 3
+                if ((viewAllChecked || deleteAllChecked || editAllChecked || createAllChecked ) && method && (method.method_sort === 0 || method.method_sort === 2 ) ) {
+                  keepMethod = true;
+                }
+        
+                return keepMethod;
+              });
             });
-        }
+          }
     };
     const filteredDisplayNamesCopyAll = usersRoleCreate
         .flatMap((roleCreate) => roleCreate.controllers)
@@ -1679,20 +1736,28 @@ const UsersRoleCreates = () => {
         setDeleteAllChecked(isChecked);
 
         if (isChecked) {
-            // If "Create All" is checked, check all checkboxes for the filtered display names
+            // If "Create All" is checked, get the method IDs to check
             const methodIdsToCheck = filteredDisplayNamesDeleteAll.map((method) => method.method_id);
-
-            // Add the method IDs to the selectedMethods state
+        
+            // Check the method IDs for "Create All"
             setSelectedMethods((prevSelectedMethods) => [...prevSelectedMethods, ...methodIdsToCheck]);
-        } else {
+          } else {
+            // If "Create All" is unchecked, clear selected checkboxes for "Create All" methods
             setSelectedMethods((prevSelectedMethods) => {
-                // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
-                return prevSelectedMethods.filter((methodId) => {
-                    const method = filteredDisplayNamesDeleteAll.find((item) => item.method_id === methodId);
-                    return !method || method.method_sort === 0;
-                });
+              // Keep the method_ids with method_sort === 0 when "Create All" is unchecked
+              return prevSelectedMethods.filter((methodId) => {
+                const method = filteredDisplayNamesDeleteAll.find((item) => item.method_id === methodId);
+                let keepMethod = !method ;
+        
+                // If "Edit All" is also checked, don't uncheck methods with method_sort === 3
+                if ((viewAllChecked || copyAllChecked || editAllChecked || createAllChecked ) && method && (method.method_sort === 0 || method.method_sort === 2 ) ) {
+                  keepMethod = true;
+                }
+        
+                return keepMethod;
+              });
             });
-        }
+          }
     };
     const filteredDisplayNamesDeleteAll = usersRoleCreate
         .flatMap((roleCreate) => roleCreate.controllers)
@@ -1802,23 +1867,7 @@ const UsersRoleCreates = () => {
 
     //     console.log("All method_sort values:", methodSorts);
     // }
-    const handleCheckboxClicks = (methodId, checked) => {
-        const updatedSelectedMethods = [...selectedMethods];
-
-        if (checked) {
-            // If the checkbox is checked, add the method to the selectedMethods
-            updatedSelectedMethods.push(methodId);
-        } else {
-            // If the checkbox is unchecked, remove the method from the selectedMethods
-            const index = updatedSelectedMethods.indexOf(methodId);
-            if (index !== -1) {
-                updatedSelectedMethods.splice(index, 1);
-            }
-        }
-
-        // Update the state with the new selectedMethods
-        setSelectedMethods(updatedSelectedMethods);
-    };
+ 
     return (
      
         <div class="col-md-12 bg-light body-content  p-4">
