@@ -52,32 +52,72 @@ const UserRoleEdit = ({ id }) => {
         return input.toLowerCase().replace(/ /g, '_');
     };
 
+    // setSelectedMethodsArrays(() => {
+    //     if (!checked) {
+    //         updatedSelectedMethods.add(methodId);
+    //     } else
+
+    //   {
+    //         updatedSelectedMethods.delete(methodId);
+    //     }
+    // });
 
 
+    // const [isChecked, setIsChecked] = useState(true);
+
+    // const handleCheckboxClicks = () => {
+    //   setIsChecked(!isChecked);
+    // };
 
     const selectedMethodsArrays = userRole?.user_role?.user_role_permission[0]?.user_page_list_id
 
+    console.log(selectedMethodsArrays)
 
-
-    const [selectedMethodsArrayss, setSelectedMethodsArrays] = useState([]);
-
-
-
-    useEffect(() => {
-        setSelectedMethodsArrays(selectedMethodsArrays)
-    }, [selectedMethodsArrays])
+    // const [selectedMethodsArrayss, setSelectedMethodsArrayss] = useState([]);
 
 
 
-    console.log(selectedMethodsArrayss, 'selectedMethodsArrayss')
+    // useEffect(() => {
+    //     setSelectedMethodsArrayss(selectedMethodsArrays)
+    // }, [selectedMethodsArrays])
+
+
+
+    // console.log(selectedMethodsArrayss, 'selectedMethodsArrayss')
 
 
     const [selectedMethods, setSelectedMethods] = useState([]);
+
+
+    useEffect(() => {
+        setSelectedMethods(selectedMethodsArrays)
+    }, [selectedMethodsArrays])
+
     const handleCheckboxClick = (methodId, checked) => {
 
 
         const updatedSelectedMethods = new Set(selectedMethods);
-        const checkedMethodSorts = []; // Array to store checked method_sort values
+
+        const checkedMethodSorts = []; // Array to store 
+
+        console.log(`Checkbox clicked for methodId ${methodId}, isChecked: ${checked}`);
+
+        // setSelectedMethodsArrayss(!selectedMethodsArrayss)
+        // console.log('1')
+
+        // setSelectedMethodsArrayss(() => {
+            // if (!checked ) {
+            //     console.log('2')                 
+            //        updatedSelectedMethods.add(   methodId);
+            // } 
+
+            // else {
+            //     console.log('4')  
+            //     updatedSelectedMethods.delete( methodId);
+            // }
+        // });
+       
+   
 
 
         const controller = usersRoleCreate
@@ -89,6 +129,7 @@ const UserRoleEdit = ({ id }) => {
             );
 
         if (controller) {
+       
             // Find the checked display_names
             const checkedDisplayNames = controller.display_names.filter((display) =>
                 display.method_names.some((m) => updatedSelectedMethods.has(m.method_id))
@@ -116,6 +157,10 @@ const UserRoleEdit = ({ id }) => {
             .map((m) => m.method_sort);
 
         console.log(method_sort);
+
+
+
+
 
 
 
@@ -162,7 +207,7 @@ const UserRoleEdit = ({ id }) => {
                     .flatMap((controllers) => controllers.display_names)
                     .flatMap((display) => display.method_names)
                     .find((method) => method.method_id === methodId);
-
+                 
 
                 if (display && display.menu_type === 1 && display.parent_id !== 0) {
                     setDoubleClickedDisplayName(null); // Remove background
@@ -171,6 +216,7 @@ const UserRoleEdit = ({ id }) => {
 
             }
         }
+
 
         // Find the controller containing the method with the specified methodId
         const controllerWithMethodId = usersRoleCreate
@@ -229,6 +275,12 @@ const UserRoleEdit = ({ id }) => {
                                     if (checkbox.checked) {
                                         shouldUncheck0And3 = true;
                                     }
+                                    else{
+                                        console.log('nayan')
+                                    }
+                                }
+                                else{
+                                    console.log('nayan2')
                                 }
                             }
                         });
@@ -260,7 +312,7 @@ const UserRoleEdit = ({ id }) => {
                 }
                 else if (method_sort === 2) {
                     let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
-                    console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    // console.log("Checked Method Sorts length:", checkedMethodSorts);
                     let shouldUncheck0And3 = false; // Initialize a flag
 
                     // Check if any of the checkboxes for method_sort 3 are currently checked
@@ -306,7 +358,7 @@ const UserRoleEdit = ({ id }) => {
                 }
                 else if (method_sort === 3) {
                     let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
-                    console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    // console.log("Checked Method Sorts length:", checkedMethodSorts);
                     let shouldUncheck0And3 = false; // Initialize a flag
 
                     // Check if any of the checkboxes for method_sort 3 are currently checked
@@ -352,7 +404,7 @@ const UserRoleEdit = ({ id }) => {
                 }
                 else if (method_sort === 4) {
                     let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
-                    console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    // console.log("Checked Method Sorts length:", checkedMethodSorts);
                     let shouldUncheck0And3 = false; // Initialize a flag
 
                     // Check if any of the checkboxes for method_sort 3 are currently checked
@@ -398,7 +450,7 @@ const UserRoleEdit = ({ id }) => {
                 }
                 else if (method_sort === 5) {
                     let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
-                    console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    // console.log("Checked Method Sorts length:", checkedMethodSorts);
                     let shouldUncheck0And3 = false; // Initialize a flag
 
                     // Check if any of the checkboxes for method_sort 3 are currently checked
@@ -444,7 +496,7 @@ const UserRoleEdit = ({ id }) => {
                 }
                 else if (method_sort > 5) {
                     let checkedMethodSortCount1 = 0; // Initialize the count of checked method_sort values
-                    console.log("Checked Method Sorts length:", checkedMethodSorts);
+                    // console.log("Checked Method Sorts length:", checkedMethodSorts);
                     let shouldUncheck0And3 = false; // Initialize a flag
 
                     // Check if any of the checkboxes for method_sort 3 are currently checked
@@ -534,7 +586,7 @@ const UserRoleEdit = ({ id }) => {
 
 
 
-    console.log(usersRoleCreate.map(userRole => userRole.controllers.map(nayan => nayan.display_names.map(hasan => hasan.method_names.map(method => method.method_id)))), 'user role')
+    // console.log(usersRoleCreate.map(userRole => userRole.controllers.map(nayan => nayan.display_names.map(hasan => hasan.method_names.map(method => method.method_id)))), 'user role')
 
     const [selectAllChecked, setSelectAllChecked] = useState(false);
 
@@ -567,7 +619,7 @@ const UserRoleEdit = ({ id }) => {
             },
         }));
     };
-
+    // selectedMethodsArrays + ',' +
     const handleEditUserRole = (event) => {
         event.preventDefault();
         const userRoleId = userRole.user_role.id; // Get the user role ID
@@ -575,7 +627,7 @@ const UserRoleEdit = ({ id }) => {
             user_role_id: userRoleId,
             role_name: userRole.user_role.role_name,
             // Include other user role properties...
-            user_page_list_id: selectedMethodsArrays + ',' + selectedMethods.toString(), // Convert to string
+            user_page_list_id: selectedMethods.toString(), // Convert to string
             user_default_page:
                 document.querySelector('input[name="default_page"]').value, // Example value, adjust as needed
             status: document.querySelector('input[name="status"]').value, // Example value, adjust as needed
@@ -599,6 +651,7 @@ const UserRoleEdit = ({ id }) => {
                 console.error('Error:', error);
                 // Handle error
             });
+        // console.log('Selected Method IDs:', selectedMethods);
     };
 
     const [createAllChecked, setCreateAllChecked] = useState(false);
@@ -639,7 +692,7 @@ const UserRoleEdit = ({ id }) => {
         .flatMap((display) => display.method_names)
         .filter((method) => [0, 1, 2, 4].includes(method.method_sort));
 
-    console.log('Filtered Display Names create all:', filteredDisplayNames);
+    // console.log('Filtered Display Names create all:', filteredDisplayNames);
 
 
 
@@ -728,7 +781,7 @@ const UserRoleEdit = ({ id }) => {
         .flatMap((display) => display.method_names)
         .filter((method) => [0, 3, 2].includes(method.method_sort));
 
-    console.log('Filtered Display Names edit all:', filteredDisplayNamesViewAll);
+    // console.log('Filtered Display Names edit all:', filteredDisplayNamesViewAll);
 
 
 
@@ -774,7 +827,7 @@ const UserRoleEdit = ({ id }) => {
         .flatMap((display) => display.method_names)
         .filter((method) => [0, 1, 2, 4].includes(method.method_sort));
 
-    console.log('Filtered Display Names copy all:', filteredDisplayNamesViewAll);
+    // console.log('Filtered Display Names copy all:', filteredDisplayNamesViewAll);
 
 
 
@@ -821,7 +874,7 @@ const UserRoleEdit = ({ id }) => {
         .flatMap((display) => display.method_names)
         .filter((method) => [0, 2, 5].includes(method.method_sort));
 
-    console.log('Filtered Display Names delete all:', filteredDisplayNamesViewAll);
+    // console.log('Filtered Display Names delete all:', filteredDisplayNamesViewAll);
 
 
 
@@ -844,7 +897,7 @@ const UserRoleEdit = ({ id }) => {
     const filteredControllerName = btnIconUsers.filter(btn =>
         btn.method_sort === 2
     );
-    console.log(filteredControllerName[0], 'btndhghg')
+    // console.log(filteredControllerName[0], 'btndhghg')
 
     //    console.log(userRole.user_role.user_role_permission[0].user_role_id)
     return (
@@ -1001,7 +1054,7 @@ const UserRoleEdit = ({ id }) => {
                                                                                 display.display_name !== '' &&
                                                                                 <>
 
-                                                                                    <input
+                                                                                    {/* <input
                                                                                         name='check_box'
                                                                                         id={`yourCheckboxId_${display?.method_names[0]?.method_id}`} // Add this ID attribute
                                                                                         className="form-check-input"
@@ -1014,6 +1067,21 @@ const UserRoleEdit = ({ id }) => {
                                                                                         onChange={(e) => handleCheckboxClick(display?.method_names[0]?.method_id, e.target.checked)}
 
 
+                                                                                    /> */}
+                                                                                    <input
+                                                                                        name='check_box'
+                                                                                        id={`yourCheckboxId_${display?.method_names[0]?.method_id}`} // Add this ID attribute
+                                                                                        className="form-check-input"
+                                                                                        type="checkbox"
+                                                                                        checked={ selectedMethods.includes(display.method_names[0].method_id)}
+
+
+
+                                                                                        // value={selectedMethodsArrayss?.includes(display.method_names[0].method_id)}
+
+
+
+                                                                                        onChange={(e) => handleCheckboxClick(display?.method_names[0]?.method_id, e.target.checked)}
                                                                                     />
 
                                                                                     <label

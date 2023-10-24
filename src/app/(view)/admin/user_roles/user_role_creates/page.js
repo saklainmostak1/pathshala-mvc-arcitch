@@ -1003,7 +1003,9 @@ const UsersRoleCreates = () => {
                                     if (checkbox.checked) {
                                         shouldUncheck0And3 = true;
                                     }
+                                    
                                 }
+                                
                             }
                         });
                     });
@@ -2027,10 +2029,13 @@ const UsersRoleCreates = () => {
                                                                         display.display_name !== '' &&
                                                                         <>
                                                                              <input
-                                                                         name='check_box' id={`yourCheckboxId_${display.method_names[0].method_id}`} // Add this ID attribute
+
+                                                                         name='check_box' 
+                                                                         id={`yourCheckboxId_${display.method_names[0].method_id}`} // Add this ID attribute
                                                                          className="form-check-input"
                                                                          type="checkbox"
                                                                          checked={selectedMethods.includes(display.method_names[0].method_id)}
+                                                                        //  value={selectedMethods.includes(display.method_names[0].method_id)}
                                                                          onChange={(e) => handleCheckboxClick(display.method_names[0].method_id, e.target.checked)}
                                                                      />
                                                                      <label
