@@ -281,14 +281,23 @@ const UserRoleEdit = ({ id }) => {
     console.log(selectedMethods , 'selectedMethods')
 
 
-    const handleCheckboxClick = (methodId) => {
-        console.log(methodId)
-        setSelectedMethods((prevSelectedMethods) => {
-            return {
-                ...prevSelectedMethods,
-                [methodId]: !prevSelectedMethods[methodId],
-            };
-        });
+    const handleCheckboxClick = (methodId, checked) => {
+
+        const updatedSelectedMethods = new Set(selectedMethods);
+       
+        if (checked) {
+            updatedSelectedMethods.add(methodId);
+        }
+        
+        else if(!checked) {
+            updatedSelectedMethods.delete(methodId);
+        }
+        // setSelectedMethods((prevSelectedMethods) => {
+        //     return {
+        //         ...prevSelectedMethods,
+        //         [methodId]: !prevSelectedMethods[methodId],
+        //     };
+        // });
     };
 
     const handleChange = (event) => {
@@ -301,7 +310,7 @@ const UserRoleEdit = ({ id }) => {
             },
         }));
     };
-
+  
     const handleEditUserRole = (event) => {
         event.preventDefault();
         const userRoleId = userRole.user_role.id;
@@ -350,7 +359,9 @@ const UserRoleEdit = ({ id }) => {
     const filteredControllerName = btnIconUsers.filter((btn) => btn.method_sort === 2);
     console.log(selectedMethods , 'selectedMethods-all-data')
     return (
+       
         <div className="col-md-12 bg-light body-content p-4">
+            
             <div className="border-primary shadow-sm border-0">
                 <div style={{ backgroundColor: '#4267b2' }} className="card-header custom-card-header py-1 clearfix bg-gradient-primary text-white">
                     <h5 className="card-title card-header-color font-weight-bold mb-0 float-left mt-1">Create User Role</h5>
@@ -414,8 +425,8 @@ const UserRoleEdit = ({ id }) => {
                                                                             type="checkbox"
                                                                             name={display.display_name}
                                                                             id={display.id}
-                                                                            // checked={selectedMethods.includes(display.method_names[0].method_id)}
-                                                                            checked={selectedMethods[display.method_names[0].method_id] }
+                                                                            // checked={selectedMethods[display.method_names[0].method_id]}
+                                                                            checked={selectedMethods.includes(display.method_names[0].method_id) }
                                                                             onChange={() => handleCheckboxClick(display.method_names[0].method_id)}
                                                                         />
                                                                     } 
