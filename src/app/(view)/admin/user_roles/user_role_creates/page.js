@@ -35,7 +35,7 @@ const UsersRoleCreates = () => {
 
     const [btnIconUsers, setBtnIconUsers] = useState([])
     useEffect(() => {
-        fetch('http://192.168.0.110:5002/user-role/btn')
+        fetch('http://192.168.0.106:5002/user-role/btn')
             .then(Response => Response.json())
             .then(data => setBtnIconUsers(data))
 
@@ -1495,7 +1495,7 @@ const UsersRoleCreates = () => {
         console.log('Form Data:', formData);
         // http://192.168.0.110:5002/user/user-role-create
 
-        fetch('http://192.168.0.110:5002/user/user-role-create', {
+        fetch('http://192.168.0.106:5002/user/user-role-create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
