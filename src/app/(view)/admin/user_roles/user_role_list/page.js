@@ -52,7 +52,7 @@ console.log(id)
   
     const proceed = window.confirm('Are You Sure delete')
     if (proceed) {
-        fetch(`http://192.168.0.110:5002/user/user-role/delete/${id}`, {
+        fetch(`http://192.168.0.106:5002/user/user-role/delete/${id}`, {
             method: "DELETE",
 
         })
